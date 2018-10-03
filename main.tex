@@ -1135,6 +1135,90 @@ Note $A^TA$ is P.S.D, in fact, p.d. because $A$ is full rank (Proposition 2.4.1)
 So given any $r>0$, we have $f(x)\geq r$ when ever $||x||\geq \frac{r+||b||}{\sqrt{\lambda_1}}$
 
 
+\chapter{Unconstrained Quadratic Optimization }
+
+\section{Quadratic Functions}
+
+\defn[Quadratic Function]
+A quadratic function takes the form $q(x)=x^TAx+b^T+c$ for any $A\in\bR^{n\times n}, b\in\bR^n, c\in\bR$, where $x^TAx=\sum_{i,j} A_{ij} x_ix_j$
+
+We can assume WLOG that $A$ is symmetric.
+
+\thm[Generalization When $A$ is not symmetric in the quadratic form]
+Let $A\in\bR^{n\times n}$ and let $G$ be the symmetric part of $A$, i.e. $G:=(A+A^T)/2$. Then 
+
+(1) $G$ is symmetric and (2) $q(x)=x^TGx+bx+c, \forall x\in\bR^n$
+\begin{proof}
+(1) Let's compute the transpose of $G$
+\begin{align*}
+    G^T=(\frac{A+A^T}{2})^T=\frac{1}{2}(A+A^T)=G
+\end{align*}
+(2) Observe that $x^TAx$ is scalar so $(x^TAx)^T=x^TAx$, then
+\begin{align*}
+    x^TAx=\frac{x^TAx}{2}+\frac{x^TAx}{2}=\frac{x^TAx}{2}+\frac{x^TA^Tx}{2}=\frac{1}{@}x^T(A+A^T)x=x^TGx
+\end{align*}
+\end{proof}
+
+\defn[Range \& Kernel]
+The range (or column space) of $A\in\bR^{m\times n}$ is $Range(A)=\{Ax:x\in\bR^n\}$
+
+The kernel (or null space)of $A\in\bR^{m\times n}$ is $Null(A)=\{x:Ax=0, x\in\bR^n\}$
+
+\thm[Relation of Range and Null]
+Let $C\in\bR^{m\times n}$. If $y\in Range(C^T)$ and $z\in Null(C)$, then $y^Tz=0$
+\begin{proof}
+Since $y\in Range(C^T)$, then $\exists x\in\bR^m$ such that $y=c^Tx$, hence
+\begin{align*}
+    y^Tz=(C^Tx)^Tz=x^T\underbrace{Cz}_{0\mbox{ since }z\in Null(C)}=0
+\end{align*}
+\end{proof}
+
+\thm[Decomposition of any vector (follows the fundamental thm of linear algebra)]
+Let $C\in\bR^{m\times n}$ For any $\omega \in\bR^n$, there exists $y\in Range(C^T)$ and $z\in Null(C)$ unique such that $\omega =y+z$
+\begin{proof}
+Let $\omega =y+z+b$, where $y\in Range(C^T),z\in Null(C), b\in Range(C^T)^{\perp}\cap Null(C)^{\perp}$
+
+The decomposition is unique since $Range(C^T)\perp Null(C)\perp b$
+
+Consider $Cb\in\bR^m$, then $C^T(Cb)\in Range(C^T)$
+
+Hence $b\perp C^T(Cb)$ as $b\in Range(C^T)^{\perp}$
+
+Thus $0=b^T\big(C^T(Cb)\big)=(Cb)^T(Cb)=||Cb||_2^2$
+
+So $Cb=0$, then $b\in Null(C)$
+
+We get $b\in Null(C)\cap Null(C)^{\perp}$, therefore $b=0$
+\end{proof}
+
+{\bf Derivative of $q(x)$}
+
+(1) $\frac{\partial}{\partial x_k}b^Tx=b_k, \nabla b^Tx=b$
+
+(2) $\frac{\partial}{\partial x_k}x^TAx=\frac{\partial}{\partial x_k}\sum_{i,j} A_{ij} x_ix_j=\frac{\partial}{\partial x_k}(\sum_{j\neq k}A_{kj}x_kx_j+\sum_{i\neq k}A_{ik}x_ix_k+A_{kk}x_k^2)$
+
+\hspace{2cm}(as $A$ is symmetric) $=(\sum_{j\neq k}A_{kj}x_kx_j+\sum_{i\neq k}A_{ki}x_ix_k+A_{kk}x_k^2)$
+
+\hspace{5.5cm}$=\frac{\partial}{\partial x_k}(2\sum_{j\neq k}A_{kj}x_kx_j+A_{kk}x_k^2)$
+
+\hspace{5.5cm}$=2\sum_{j\neq k}A_{kj}x_j+2A_{kk}x_k=2\sum_{j}A_{kj}x_j$
+
+\hspace{5.5cm}$=k$th row of $2Ax$
+
+\hspace{0.5cm}$\nabla x^Tx=2Ax$
+
+(3) $\nabla^2bx=0$
+
+(4) $\frac{\partial^2}{\partial x_k\partial x_l}x^TAx=\frac{\partial}{\partial x_l}(2\sum_{j}A_{kj}x_j)=2A_{kl}$, $\nabla^2x^TAx=2A$
+
+\thm
+Given $A\in\bR^{n\times n}$ be symmetric, $b\in\bR^n, c\in \bR$, let $q(x)=x^TAx+bx+c$
+
+(1) If $A$ is p.d., then $q(x)$ has a unique global minimizer $x^*=-\frac{1}{2}A^{-1}b$
+
+(2) If $A$ is p.s.d. and $b\in Range(A)$, then $q(x)$ has a global minimizer
+
+(3) Otherwise, $q(x)$ has no global minimizer
 
 
 \end{document}
