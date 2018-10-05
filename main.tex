@@ -1155,7 +1155,7 @@ Let $A\in\bR^{n\times n}$ and let $G$ be the symmetric part of $A$, i.e. $G:=(A+
 \end{align*}
 (2) Observe that $x^TAx$ is scalar so $(x^TAx)^T=x^TAx$, then
 \begin{align*}
-    x^TAx=\frac{x^TAx}{2}+\frac{x^TAx}{2}=\frac{x^TAx}{2}+\frac{x^TA^Tx}{2}=\frac{1}{@}x^T(A+A^T)x=x^TGx
+    x^TAx=\frac{x^TAx}{2}+\frac{x^TAx}{2}=\frac{x^TAx}{2}+\frac{x^TA^Tx}{2}=\frac{1}{2}x^T(A+A^T)x=x^TGx
 \end{align*}
 \end{proof}
 
@@ -1218,7 +1218,95 @@ Given $A\in\bR^{n\times n}$ be symmetric, $b\in\bR^n, c\in \bR$, let $q(x)=x^TAx
 
 (2) If $A$ is p.s.d. and $b\in Range(A)$, then $q(x)$ has a global minimizer
 
-(3) Otherwise, $q(x)$ has no global minimizer
+(3) Otherwise, $q(x)$ has no global minimizer, i.e. $q(x)\to-\infty$ for some $||x||\to+\infty$
+\begin{proof}
+Necessary Conditions:
 
+$x^*$ local minimizer $\Longrightarrow\,\,\begin{cases}
+    \nabla q(x^*)=0\\
+    \nabla^2 q(x^*)\,\,p.s.d.
+\end{cases}\Longrightarrow\,\,\begin{cases}
+    2Ax^*+b=0\\
+    2A, i.e. A\,\,\,\,
+    \,\,p.s.d.
+\end{cases}$
+
+(1) Assume $A$ is p.d., then all eigenvalues $>0$, thus $A^{-1}$ exists
+
+There is a unique critical point (i.e. point where $\nabla q=0$) $x^*=-\frac{1}{2}A^{-1}b$
+
+It is a local minimizer since $\nabla^2q(x^*)=A$ is p.d. (see sufficient conditions)
+
+Note that for any $h\in\bR^n$
+
+\begin{align}
+    x^{*^T}Ah=(x^{*^T}Ah)^T=h^TA^Tx^*=h^TAx^*
+\end{align}
+
+Hence we have
+\begin{align*}
+    q(x^*+h)&=(x^*+h)^TA(x^*+h)+b^T(x^*+h)+c\\
+    &=x^{*^T}Ax^*+x^{*^T}Ah+h^TAx^*+h^TAh+b^Tx^*+b^Th+c\\
+    &=(x^{*^T}Ax^*+b^Tx^*+c)+(x^{*^T}Ah+h^TAx^*)+h^TAh+b^Th\\
+    &=q(x^*)+2h^TAx^*+h^TAh+b^Th\mbox{ by (5.1)}\\
+    &=q(x^*)+2h^TA(-\frac{1}{2}A^{-1}b)+h^TAh+b^Th\\
+    &=q(x^*)-h^Tb+h^TAh+b^Th\\
+    &=q(x^*)+h^TAh\\
+    &\geq q(x^*)
+\end{align*}
+
+(2) $b\in Range(A)\,\,\Longrightarrow\,\,-\frac{1}{2}b\in Range (A)$, so $Ax^*=-\frac{1}{2}b$ for some $x^*$
+
+Hence $x^*$ satisfies $\nabla g(x^*)=2Ax^*+b=0$
+
+Then same proof as (1), $q(x^*+h)\geq q(x^*), \forall h\in\bR^n$
+
+(3.1) Assume $A$ is p.s.d but $b\notin Range (A)$
+
+We try to find a direction $z$ that $q$ goes to $-\infty$
+
+Write $b=y+z$ uniquely with $y\in Range (A^T)=Range(A), z\in Null(A), z\neq0$ since $b\notin Range(A)$
+
+For any $\lambda\in\bR$
+\begin{align*}
+    q(\lambda z)&=\lambda^2z^T\underbrace{Az}_{=0}+\lambda b^Tz+c\\
+    &=\lambda(y+z)^Tz+c\\
+    &=\lambda \underbrace{y^Tz}_{=0}+\lambda z^Tz+c\\
+    &=\lambda \underbrace{||z||_2^2}_{>0\mbox{ since }z\neq 0}+c
+\end{align*}
+
+For $\lambda\to-\infty$, we get $q(\lambda z)\to-\infty$
+
+(3.2) Assume $A$ is not p.s.d., then $\exists v\in\bR^n, v^TAv<0$
+
+Still we want to find a direction
+
+Let $\omega\in\bR^n$ with $\omega =\begin{cases}
+    v\,\,&\mbox{ if }b^Tv\geq 0\\
+    -v\,\,&\mbox{ if }b^Tv<0
+\end{cases}$, we have $\omega^TA\omega<0$ and $b^T\omega \geq 0$
+
+For any $\lambda \in\bR, q(\lambda\omega)=\lambda^2\underbrace{\omega^TA\omega}_{<0}+\lambda\underbrace{b^T\omega}_{\geq 0}+c$
+
+Take $\lambda\to-\infty$, we get $q(\lambda \omega)\to-\infty$
+\end{proof}
+
+\chapter{Least Squares Problem}
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=8cm, height=6cm]{12345}
+\end{figure}
+
+Given $a_1,\cdots,a_m\in\bR^k, b_1,\cdots,b_m\in \bR$, find a function $h:\bR^k\to\bR$ such that $h(a_i)\approx b_i,\forall i$
+
+{\bf Least Squares : }Minimize $\sum_{i}\big(h(a_i)-b_i\big)^2$
+
+{\bf Goal : }Determine the best $h$ among a family of functions, parametrized by $x\in\bR^n$ : 
+\begin{align*}
+    \min_{x\in\bR^n}\sum_{i}\big(h_x(a_i)-b_i\big)^2
+\end{align*}
+
+Let $f(x)=\sum_{i}\big(h_x(a_i)-b_i\big)^2, \min_{x\in\bR^n}f(x)$
 
 \end{document}
