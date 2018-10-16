@@ -7,6 +7,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
 
 % Essential Packages
 \usepackage{ragged2e}
@@ -147,24 +149,7 @@
 \theoremlisttype{all}
 \listtheorems{defn}
 
-\chapter*{List of Theorems}
-\theoremlisttype{allname}
-\listtheorems{axiom,lemma,thm,crly,propo}
 
-\chapter*{List of Symbols}\label{symbol_list}
-\begin{tabular}{l l}
-    $S_n$               &   symmetric group on n letters \\
-    $D_{2n}$            &   dihedral group of order 2n \\
-    $A \times B$        &   Cartesian product of A and B \\
-    $A \simeq B$        &   A is isomorphic to B \\
-    $\ker(\phi)$        &   kernel of $\phi$ \\
-    $I_m(\phi)$         &   image set of $\phi$ \\
-    $gH, Hg$            &   left coset, right coset of H with coset representative g \\
-    $[G : H]$           &   index of the subgroup H in G \\
-    $H \triangleleft G$ &   H is a normal subgroup of G \\
-    $\rem_n(a)$         &   remainder of a when divided by n \\
-
-\end{tabular}
 
 \chapter{Introduction}
 
@@ -1140,7 +1125,7 @@ So given any $r>0$, we have $f(x)\geq r$ when ever $||x||\geq \frac{r+||b||}{\sq
 \section{Quadratic Functions}
 
 \defn[Quadratic Function]
-A quadratic function takes the form $q(x)=x^TAx+b^T+c$ for any $A\in\bR^{n\times n}, b\in\bR^n, c\in\bR$, where $x^TAx=\sum_{i,j} A_{ij} x_ix_j$
+A quadratic function takes the form $q(x)=x^TAx+b^Tx+c$ for any $A\in\bR^{n\times n}, b\in\bR^n, c\in\bR$, where $x^TAx=\sum_{i,j} A_{ij} x_ix_j$
 
 We can assume WLOG that $A$ is symmetric.
 
@@ -1308,5 +1293,96 @@ Given $a_1,\cdots,a_m\in\bR^k, b_1,\cdots,b_m\in \bR$, find a function $h:\bR^k\
 \end{align*}
 
 Let $f(x)=\sum_{i}\big(h_x(a_i)-b_i\big)^2, \min_{x\in\bR^n}f(x)$
+
+\section{Linear Least Squares}
+
+$h_x(a_i)=x_1a_{i1}+x_2a_{i2}+\cdots+x_ka_{ik}=a_i^Tx$ in 1 dimension :
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[ xlabel={$x$}, ylabel={$y$}
+,axis lines=middle
+, thick
+,domain=0:4
+,ticks=none
+]
+\addplot[domain=0:3.8,samples=5000] {x};
+\node at (2.8,3.6){$h_x(a)=ax$};
+\node at (1,0.5){$\bullet\,\,(a_1,b_1)$};
+\node at (1.5, 2){$\bullet\,\,(a_2,b_2)$};
+\node at (3,2.5){$\bullet\,\,(a_3,b_3)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\note How to get a hyperplane (or line) that does not contain the origin?
+
+Let $n=k+1, a_{i,k+1}=1,\forall i$, then $h_x(a_i)=x_1a_{i1}+\cdots+x_ka_{ik}+x_{k+1}$
+\begin{align*}
+    f(x)&=\sum_i(a_i^Tx-b_i)^2=(Ax-b)^2=(Ax-b)^T(Ax-b)=||Ax-b||^2_2\\
+    &=x^TA^TAx-x^TA^Tb-b^TAx+b^Tb\\
+    &=x^T(A^TA)x-(2A^Tb)^Tx+b^Tb
+\end{align*}
+
+Thus $f(x)$ is a quadratic function
+
+If $rank(A)=n$, we have seen that $||Ax-b||_2$ is coercive, so it has a global minimizer. 
+
+If $rank(A)=n$ and $A^TA$ is p.d., then $f(x)$ has a global minimizer
+\begin{center}$x^*=-\frac{1}{2}(A^TA)^{-1}(-2A^Tb)=(A^TA)^{-1}A^Tb$
+\end{center}
+
+\section{Nonlinear Least Squares}
+
+Let $g:\bR^n\to\bR^m$ with $g_i(x)=h_x(a_i)-b$, we have $f(x)=\sum_i\big(g_i(x)\big)^2=g(x)^Tg(x)$
+
+\defn[Jacobian Matrix]
+The Jacobian matrix of $g$ is given by 
+    $J(x)=\begin{bmatrix}
+    \nabla g_1(x)^T\\
+    \vdots\\
+    \nabla g_m(x)^T
+    \end{bmatrix}=\begin{bmatrix}
+    &\frac{\partial}{\partial x_1}g_1(x)\,&\,\cdots\,&\frac{\partial}{\partial x_n}g_1(x)\\
+    &\vdots\,&\ddots\,& \vdots\\
+    &\frac{\partial}{\partial x_1}g_m(x)\,&\,\cdots\,&\frac{\partial}{\partial x_n}g_m(x)\\
+    \end{bmatrix}$
+
+\begin{align*}
+    \frac{\partial}{\partial x_k}f(x)&=\frac{\partial}{\partial x_k}\sum_i\big(g_i(x)\big)^2\\
+    &=\sum_i 2g_i(x)\frac{\partial}{\partial x_k}g_i(x)\\
+    &=2 e_k^T J(x)^T g_i(x)
+\end{align*}
+
+Thus $\nabla f(x)=2 J(x)^Tg(x)$
+
+\note
+If $g_i(x^*)=0$, then $\nabla f(x^*)=0$ and $x^*$ is a global minimizer
+\begin{align*}
+    \frac{\partial^2}{\partial x_k\partial x_l}g(x)&=\frac{\partial}{\partial x_l}2\big(\sum_i g_i(x)\frac{\partial}{\partial x_k} g_i(x)\big)\\
+    &=2\sum_i\big(\frac{\partial}{\partial x_l}g_i(x)\frac{\partial}{\partial x_k}g_i(x)+g_i(x)\frac{\partial^2}{\partial x_k\partial x_l}g_i(x)\big)\\
+    \nabla^2 f(x)&=\big(2\sum_i\underbrace{g_i(x)\nabla^2g_i(x)}_{\mbox{not necessary p.d.}}\big)+2\underbrace{J(x)^TJ(x)}_{\mbox{p.s.d}}
+\end{align*}
+
+\chapter{Descent Algorithms}
+
+{\bf General Framework}
+\begin{align*}
+    \mbox{Choose }& x^0\in\bR^n\\
+    \mbox{for }& k=0,1,2,\cdots\\
+    &\mbox{Choose a search direction }p^k\in\bR^n\\
+    &\mbox{Choose a step length }\alpha^k>0\\
+    &\mbox{Let }x^{k+1}=x^k+\alpha^2p^k
+\end{align*}
+\note $\alpha^k$ is not $\alpha$ to the power $k$, same for $p^k,x^k$. Also the objective function $f(x^{k+1})$ should be much smaller than $f(x^k)$ and $x^k$ converges as fast as possible
+
+$\ $
+
+{\bf Steepest Descent} $p^k=-\nabla f(x^k)$
+
+$\ $
+
+\thm
+Let $f\in C^1\big(B_t(x^k)0\big), t>0$ and $\nabla f(x^k)\neq 0$. Consider the optimization problem, for some $0<\epsilon<t, \min\{f(x^k+\epsilon p)\,:\,||p||_2=1\}$. 
+Let $p^*$ be a minimizer, then $\lim_{\epsilon\to 0}p^*(\epsilon)=-\frac{\nabla f(x^k)}{||\nabla f(x^k)||}$
 
 \end{document}
