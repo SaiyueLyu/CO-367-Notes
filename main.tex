@@ -1381,8 +1381,104 @@ $\ $
 
 $\ $
 
-\thm
-Let $f\in C^1\big(B_t(x^k)0\big), t>0$ and $\nabla f(x^k)\neq 0$. Consider the optimization problem, for some $0<\epsilon<t, \min\{f(x^k+\epsilon p)\,:\,||p||_2=1\}$. 
-Let $p^*$ be a minimizer, then $\lim_{\epsilon\to 0}p^*(\epsilon)=-\frac{\nabla f(x^k)}{||\nabla f(x^k)||}$
+\lemma[From Limit to Bound]
+Let $\lim_{\epsilon\to 0, \epsilon>0}\frac{\phi(\epsilon h)}{\epsilon}=0$ for any $K>0$, there exists $\epsilon$ small enough such that $|\phi(\epsilon h)|\leq \epsilon K$
+\begin{proof}
+For any $K>0$, there exists $\gamma>0$ such that $|\frac{\phi(\epsilon h)}{\epsilon}-0|\leq K, \forall 0<\epsilon \gamma$, i.e. 
+\begin{align*}
+    |\phi(\epsilon h)|\leq \epsilon K, \forall 0<\epsilon <\gamma
+\end{align*}
+Thus $\epsilon$ sufficiently small is $\epsilon\leq \gamma$
+\end{proof}
 
+\thm
+Let $f\in C^1\big(B_t(x^k)\big), t>0$ and $\nabla f(x^k)\neq 0$. Consider the optimization problem, for some $0<\epsilon<t, \min\{f(x^k+\epsilon p)\,:\,||p||_2=1\}$. 
+Let $p^*$ be a minimizer, then $\lim_{\epsilon\to 0}p^*_{\epsilon}=-\frac{\nabla f(x^k)}{||\nabla f(x^k)||}$
+\begin{proof}
+Let $x=x^k, p=-\frac{\nabla f(x)}{||\nabla f(x)||_2}$, hence $\nabla f(x)=-p||\nabla f(x)||$
+
+Let $u\in\bR^n$ with $||u||_2=1, u\neq p$, so $||u-p||>\delta>0$, hence
+\begin{align*}
+    (u-p)^T(u-p)&>\delta^2\\
+    u^Tu-2u^Tp+p^Tp&>\delta^2\\
+    2-2u^Tp&>\delta^2\\
+    u^Tp&<1-\frac{\delta^2}{2}
+\end{align*}
+
+{\bf First use Taylor to write $f(x+\epsilon u)$}
+\begin{align*}
+    f(x+\epsilon u)&=f(x)+\epsilon u^T\nabla f(x)+\phi(\epsilon u),\mbox{ with }\lim_{\epsilon\to 0}\frac{\phi(\epsilon u)}{\epsilon}=0\\
+    &=f(x)-\epsilon ||\nabla f(x)||u^Tp+\phi(\epsilon u)\\
+    &\geq f(x)-\epsilon ||\nabla f(x)||(1-\frac{\delta^2}{2})+\phi(\epsilon u)
+\end{align*}
+Now we want to get rid of $\phi(\epsilon u)$.
+For $\epsilon$ small enough, by Lemma 7.0.1, we have
+\begin{align*}
+    |\phi(\epsilon u)|&\leq \epsilon(||\nabla f(x)||\frac{\delta^2}{4})\\
+    \phi(\epsilon u)&\geq -\epsilon||\nabla f(x)||\frac{\delta^2}{4}
+\end{align*}
+
+Hence we have a lower bound
+\begin{align*}
+    f(x+\epsilon u)&\geq f(x)-\epsilon ||\nabla f(x)||(1-\frac{\delta^2}{2})-\epsilon||\nabla f(x)||\frac{\delta^2}{4}\\
+    &=f(x)-\epsilon||\nabla f(x)||+\epsilon \frac{\delta^2}{4}||\nabla f(x)||
+\end{align*}
+
+{\bf Then use Taylor to write $f(x+\epsilon p)$}
+\begin{align*}
+    f(x+\epsilon p)&=f(x)+\epsilon p^T\nabla f(x)+\phi(\epsilon p),\mbox{ with }\lim_{\epsilon\to 0}\frac{\phi(\epsilon p)}{\epsilon}=0\\
+    &=f(x)-\epsilon ||\nabla f(x)||p^Tp+\phi(\epsilon p)\\
+    &=f(x)-\epsilon ||\nabla f(x)||+\phi(\epsilon p)
+\end{align*}
+
+Again, for $\epsilon$ small enough, combined with the lower bound, we choose our magic upper bound
+\begin{align*}
+    |\phi(\epsilon p)|&\leq \epsilon \frac{\delta^2}{5}||\nabla f(x)||\\
+    \phi(\epsilon p)&\leq \epsilon \frac{\delta^2}{5}||\nabla f(x)||
+\end{align*}
+
+Hence we have a upper bound
+\begin{align*}
+    f(x+\epsilon p)\leq f(x)-\epsilon ||\nabla f(x)||+\epsilon \frac{\delta^2}{5}||\nabla f(x)||
+\end{align*}
+
+{\bf Using two bounds, we have}
+\begin{align*}
+    f(x+\epsilon p)\leq f(x)-\epsilon ||\nabla f(x)||+\epsilon \frac{\delta^2}{5}||\nabla f(x)||\leq f(x)-\epsilon||\nabla f(x)||+\epsilon \frac{\delta^2}{4}||\nabla f(x)||\leq f(x+\epsilon u)
+\end{align*}
+
+Therefore $f(x+\epsilon p)$ is the minimizer
+\end{proof}
+
+\defn[Descent Direction]
+$p^k$ is a descent direction if $f(x^k+\epsilon p^k)<f(x^k)$, for all $\epsilon $ small enough
+
+\thm
+Let $x^k$ be such that $\nabla f(x^k)\neq 0$, if $(p^k)^T\nabla f(x^k)<0$, then $p^k$ is a descent direction
+\begin{proof}
+Let $p=p^k$, WLOG, $||p||=1$, by Taylor, have
+\begin{align*}
+    f(x^k+\epsilon p)=f(x)+\epsilon p^T\nabla f(x^k)+\phi(\epsilon p), \mbox{ with }\lim_{\epsilon \to 0} \frac{\phi(\epsilon p)}{\epsilon }=0
+\end{align*}
+
+For $\epsilon $ small enough, $|\phi(\epsilon p)|\leq \epsilon |\frac{1}{2}p^T\nabla f(x^k)|=-\epsilon \frac{1}{2}p^T\nabla f(x^k)$
+
+Hence we have
+\begin{align*}
+    f(x^k+\epsilon p)\leq f(x^k)+\frac{1}{2}\epsilon p^T\nabla f(x)<f(x^k)
+\end{align*}
+\end{proof}
+
+\section{Line Search}
+{\bf Once $p^k$ is chosen, determine $\alpha^k$ such that $x^{k+1}=x^k+\alpha^k+p^k$}
+
+$\bullet$ Exact Line Search : $\alpha^k=argmin_{\alpha\geq 0}\{f(x^k+\alpha p^k)\}$
+
+We define $\psi(\alpha)=f(x^k+\alpha p^k)$
+
+\note $\psi(0)=f(x^k)$ and once $\alpha^k$ is chosen, $\psi(\alpha^k)=f(x^{k+1})$
+
+$\psi'(\alpha)=\frac{d}{d\alpha}\psi(\alpha)=\nabla f(x^k+\alpha p^k)^Tp^k$ (directional derivative)
+
+$\psi'(0)=\nabla f(x^k)^Tp^k<0$ since we assume $p^k$ is a descent direction
 \end{document}
