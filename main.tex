@@ -1481,4 +1481,94 @@ We define $\psi(\alpha)=f(x^k+\alpha p^k)$
 $\psi'(\alpha)=\frac{d}{d\alpha}\psi(\alpha)=\nabla f(x^k+\alpha p^k)^Tp^k$ (directional derivative)
 
 $\psi'(0)=\nabla f(x^k)^Tp^k<0$ since we assume $p^k$ is a descent direction
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=14cm, height=10cm]{linesearch.jpg}
+\end{figure}
+
+{\bf Sufficient Decrease Condition :} Fix $0<\sigma<\frac{1}{2}$, $\alpha$ must satisfy that :
+\begin{align*}
+    \psi(\alpha)\leq \psi(0)+\sigma \alpha\psi'(0)
+\end{align*}
+
+{\bf Curvature Condition (Scveral Variants}
+\begin{align*}
+    \psi(2\cdot \alpha)>\psi(0)+\sigma 2\alpha \psi'(0)
+\end{align*}
+
+$\ $
+
+{\bf Armijo ("backtrack") Inexact Linea Search}
+
+Let $\alpha :=1$
+
+If $\alpha$ fails sufficient decrease
+
+\hspace{1cm} While $\alpha$ fails sufficient decrease
+
+\hspace{2cm} $\alpha :=\alpha /2$
+
+Else $\alpha$ fails curvature condition
+
+\hspace{1cm} While $\alpha$ fails curvature condition
+
+\hspace{2cm} $\alpha :=\alpha/2$
+
+\thm
+Let $f\in C^1, \nabla f(x^k)\neq 0$ and let $p^k$ be a descent direction, then
+
+Either the Armijo Algorithm terminates and $\alpha $ satisfies both conditions
+
+Or $\alpha\to +\infty$ and $f$ is unbounded below $(f(x^k)\to -\infty)$
+
+\begin{proof}
+$\bullet$ If the first loop terminates, $\alpha$ satisfies sufficient decrease and $2\alpha$ fails it, i.e. $\alpha$ satisfies curvature condition
+
+We need to show that the first loop terminates:
+\begin{align*}
+    \psi(\alpha)=\psi(0)+\alpha\cdot\psi'(0)+\phi(\alpha)
+\end{align*}
+
+For $\alpha$ sufficient small, by Lemma 7.0.1, have 
+\begin{align*}
+    |\phi(\alpha)|&\leq \alpha|\frac{1}{2}\psi'(0)|\\
+    \phi(\alpha)&\leq -\alpha\frac{1}{2}\psi'(0)
+\end{align*}
+
+Thus $\psi(\alpha)\leq \psi(0)+\frac{1}{2}\psi'(0)\cdot\alpha$
+
+$\bullet$ If the second loop terminates, $\alpha$ satisfies curvature condition, $\frac{\alpha}{2}$ fails it, i.e. $\alpha$ satisfies sufficient decrease
+
+$\bullet$ If the second loop does not terminate, 
+\begin{align*}
+    \psi(2^j)\leq \psi(0)+2^j\sigma \underbrace{\psi'(0)}_{<0}, \forall j\in\bZ^+
+\end{align*}
+
+Thus $\psi(2^j)\to-\infty$ for $j\to +\infty$
+
+$\bullet$ If we did not go in either loop, $\alpha=1$ satisfies both conditions
+\end{proof}
+
+\defn[Lipschitz Continuous]
+A function $f:\bR^n\to \bR$ is Lipschitz continuous with constant $L$ if $|f(y)-f(x)|\leq L\cdot\,||y-x||, \forall x,y\in\bR^n$
+
+\note Lipschitz continuous implies $C^0$ continuous, but the converse is not true
+
+\thm
+Let $f\in C^1\big(B_{\delta}(0)\big),\,\, f$ is Lipschitz continuous with constant $L$ on $B_{\delta}(0)$ if and only if $||\nabla f(x)||\leq L, \forall x\in B_{\delta}(0)$
+
+\thm[Zoutendijk's Thm]
+Let $f:\bR^n\to\bR$ with $f\in C^1(\bR^n)$. If
+
+(1) $\nabla f$ is Lipschitz continuous
+
+(2) $\forall k$, $p^k$ is a descent direction with $\nabla f(x^k)^Tp^k\leq -\mu ||\nabla f(x^k)||_2\cdot||p^k||_2$ for some $0<\mu\leq 1$
+
+\hspace{1cm} this means if $mu=1$, then $p^k$ would be the steepest direction (think of vector dot product)
+
+(3) $\forall k$, $\alpha^k$ satisfies both decrease and curvature condition
+
+Then either (a) $\lim_{k\to \infty} f(x^k)=-\infty$, or (b) $\lim_{k\to \infty} \nabla f(x^k)=0$
+
 \end{document}
