@@ -1583,6 +1583,8 @@ If instead (b) does not happen, i.e. $\lim_{k\to \infty} \nabla f(x^k)$ does not
 
 In the rest of the proof, we will show that (7.1) implies $f(x^{k+1})\leq f(x^k)-\delta$ for some constant $\delta>0$, thus $f(x^k)\to-\infty$
 
+We need to find a upper bound of $\psi(\alpha^k)$, note that $\psi'(0)<0$, we must find a lower bound of $\alpha^k$
+
 Now consider for some $0<\sigma<\frac{1}{2}$, the curvature condition gives:
 \begin{align*}
     \psi(2\alpha^k)>\psi(0)+2\alpha^k\sigma\psi'(0)
@@ -1626,7 +1628,7 @@ Recall that $0\leq \gamma\leq 2\alpha^k$, thus $\alpha^k\geq \gamma/2$, hence {\
 
 Now we show the sufficient decrease
 \begin{align*}
-    \psi(\alpha^k)&\leq \psi(0)+\sigma \psi'(0)\\
+    \psi(\alpha^k)&\leq \psi(0)+\sigma \alpha^k\psi'(0)\\
     &\leq \psi(0)+\sigma\frac{(1-\sigma)(-\psi'(0))}{2L\cdot||p^k||^2}\psi'(0)\,\,\mbox{ note }\psi'(0)<0\\
     &=\psi(0)-\frac{\sigma(1-\sigma)}{2L}\cdot\big(\frac{\psi'(0)}{||p^k||^2})^2
 \end{align*}
