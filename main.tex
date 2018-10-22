@@ -1563,12 +1563,110 @@ Let $f:\bR^n\to\bR$ with $f\in C^1(\bR^n)$. If
 
 (1) $\nabla f$ is Lipschitz continuous
 
-(2) $\forall k$, $p^k$ is a descent direction with $\nabla f(x^k)^Tp^k\leq -\mu ||\nabla f(x^k)||_2\cdot||p^k||_2$ for some $0<\mu\leq 1$
-
-\hspace{1cm} this means if $mu=1$, then $p^k$ would be the steepest direction (think of vector dot product)
+(2) $\forall k$, $p^k$ is a descent direction with $\nabla f(x^k)^Tp^k\leq -\mu ||\nabla f(x^k)||_2\cdot||p^k||_2$ for some $0<\mu\leq 1$. This means if $\mu=1$, then $p^k$ would be the steepest direction (think of vector dot product, $\mu$ would be a cosine of an angle)
 
 (3) $\forall k$, $\alpha^k$ satisfies both decrease and curvature condition
 
 Then either (a) $\lim_{k\to \infty} f(x^k)=-\infty$, or (b) $\lim_{k\to \infty} \nabla f(x^k)=0$
+\begin{proof}
+We will prove there is no other situation (c), i.e. if (b) does not happen, then (a) does
+
+Note that (b) $\lim_{k\to \infty} \nabla f(x^k)=0$ can be stated in the following way
+\begin{align*}
+    \forall \epsilon >0, \,\exists\,K\geq 0\,:\,\forall k\geq K, \,||\nabla f(x^k)||<\epsilon
+\end{align*}
+
+If instead (b) does not happen, i.e. $\lim_{k\to \infty} \nabla f(x^k)$ does not exists or not equal to 0, then
+\begin{align}
+    \exists \epsilon >0\,,\,\forall \,K>0, \,,\,\exists\,k\geq K\,:\,||\nabla f(x^k)||\geq \epsilon
+\end{align}
+
+In the rest of the proof, we will show that (7.1) implies $f(x^{k+1})\leq f(x^k)-\delta$ for some constant $\delta>0$, thus $f(x^k)\to-\infty$
+
+Now consider for some $0<\sigma<\frac{1}{2}$, the curvature condition gives:
+\begin{align*}
+    \psi(2\alpha^k)>\psi(0)+2\alpha^k\sigma\psi'(0)
+\end{align*}
+
+And the mean value thm
+\begin{align*}
+    \exists\,0\leq \gamma\leq 2\alpha^k\,\psi(2\alpha^k)=\psi(0)+2\alpha^k\psi'(\gamma)
+\end{align*}
+
+Together we have
+\begin{align}
+    \psi'(\gamma)&>\sigma \psi'(0)\nonumber \\
+    \nabla f(x^k+\gamma p^k)^Tp^k&>\sigma \nabla f(x^k)^Tp^k
+\end{align}
+
+Then consider Lipschitz gives
+\begin{align*}
+    ||\nabla f(x^k+\gamma p^k)-\nabla f(x^k)||\leq L\cdot\gamma||p^k||
+\end{align*}
+
+And the CS inequality gives
+\begin{align}
+    [\nabla f(x^k+\gamma p^k)-\nabla f(x^k)]^Tp^k&\leq ||\nabla f(x^k+\gamma p^k)-\nabla f(x^k)||\cdot||p^k||\nonumber\\
+    &\leq L\cdot\gamma||p^k||^2\nonumber\\
+    \nabla f(x^k+\gamma p^k)^Tp^k&\leq \nabla f(x^k)^Tp^k+L\cdot\gamma ||p^k||^2
+\end{align}
+
+Combined (7.2) and (7.3) together, have
+\begin{align*}
+    \nabla f(x^k)^Tp^k+L\cdot\gamma ||p^k||^2&>\sigma \nabla f(x^k)^Tp^k\\
+    L\cdot\gamma ||p^k||^2&>(\sigma-1) \nabla f(x^k)^Tp^k\\
+    L\cdot\gamma ||p^k||^2&>(\sigma-1) \psi'(0)\\
+    \gamma&>\frac{(1-\sigma)(-\psi'(0))}{L\cdot||p^k||^2}
+\end{align*}
+
+Recall that $0\leq \gamma\leq 2\alpha^k$, thus $\alpha^k\geq \gamma/2$, hence {\bf finally we get an lower bound for $\alpha^k$}
+\begin{align*}
+    \alpha^k>\frac{(1-\sigma)(-\psi'(0))}{2L\cdot||p^k||^2}
+\end{align*}
+
+Now we show the sufficient decrease
+\begin{align*}
+    \psi(\alpha^k)&\leq \psi(0)+\sigma \psi'(0)\\
+    &\leq \psi(0)+\sigma\frac{(1-\sigma)(-\psi'(0))}{2L\cdot||p^k||^2}\psi'(0)\,\,\mbox{ note }\psi'(0)<0\\
+    &=\psi(0)-\frac{\sigma(1-\sigma)}{2L}\cdot\big(\frac{\psi'(0)}{||p^k||^2})^2
+\end{align*}
+
+By hypothesis
+\begin{align*}
+    \big(\psi'(0)\big)^2=\big(\nabla f(x^k)^Tp^k\big)^2\geq \mu^2\cdot||
+    \nabla f(x^k)||^2\cdot||p^k||^2
+\end{align*}
+
+Hence we have
+\begin{align*}
+    \psi(\alpha^k)\leq \psi(0)-\frac{\sigma(1-\sigma)}{2L}\cdot\mu^2\cdot||\nabla f(x^k)||^2
+\end{align*}
+
+By (7.1), $||\nabla f(x^k)||\geq \epsilon$, so
+\begin{align*}
+    \psi(\alpha^k)&\leq \psi(0)-\frac{\sigma(1-\sigma)\mu^2\epsilon^2}{2L}\\
+    f(x^k+\alpha^kp^k)&\leq f(x^k)-\frac{\sigma(1-\sigma)\mu^2\epsilon^2}{2L}
+\end{align*}
+\end{proof}
+
+$\ $
+
+$\bullet$ We now have a complete algorithm:
+
+\hspace{0.5cm} Start at an arbitrary $x^0\in\bR^n$
+
+\hspace{0.5cm} For $k=1,2,\cdots$
+
+\hspace{1cm} Choose $p^k$ such that $\nabla f(x^k)^Tp^k\leq -\mu\cdot||\nabla f(x^k)||\cdot||p^k||$, for some $0<\mu\leq 1$
+
+\hspace{2cm} for example $p^k:=-\nabla f(x^k)$, the steepest descent 
+
+\hspace{1cm} Choose $\alpha^k$ with Armijo inexact line search
+
+\hspace{1cm} Let $x^{k+1}:=x^k+\alpha^kp^k$
+
+\hspace{1cm} If ($f(x^{k+1}<-M$) or ($||\nabla f(x^{k+1})||\,\leq \epsilon$)
+
+\hspace{2cm} STOP
 
 \end{document}
