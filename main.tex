@@ -1671,4 +1671,55 @@ $\bullet$ We now have a complete algorithm:
 
 \hspace{2cm} STOP
 
+\section{Convergence of Descent Algorithms}
+
+\defn[Converge Degree]
+A sequence $s^0,s^1,\cdots$ converges with degree $d$ to 0 if $|s^{k+1}|\leq C\cdot |s^k|^d$. Convergence is said to be linear if $d=1$ and quadratic if $d=2$
+
+\defn[Strongly Convex]
+A function $f\in C^1(\bR^n)$ is strongly convex if $\big(\nabla f(y)-\nabla f(x)\big)^T(y-x)\geq l\cdot ||y-x||^2,\forall x,y\in\bR^n$ for some $l>0$
+
+\lemma
+If $f$ is strongly convex, then $||\nabla f(y)-\nabla f(x)||^2\geq l\cdot |f(y)-f(x)|,\forall x,ty\in\bR^n$
+
+%eigenvalue >= l??
+
+\lemma[Assignment 1 Q2]
+Let $f\in C^2(\bR^n)$, $f$ is strongly convex if and only if $\big(\nabla^2f(x)-l\cdot I\big)$ is p.s.d. for all $x\in\bR^n$
+
+\lemma 
+Any strongly convex function is strictly convex
+
+\thm
+Assume the same condition as Zoutendijk's Thm, if in addition, $f$ is strongly convex, then $f(x^k)$ converges linearly to a local( global ) minimizer $f(x^*)$
+\proof
+From the previous proof we have
+\begin{align*}
+f(^{k+1})&\leq f(x^k)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\nabla f(x^k)||^2\\
+f(^{k+1})-f(x^*)&\leq f(x^k)-f(x^*)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\nabla f(x^k)||^2
+\end{align*}
+By Lemma 7.2.1, $||\nabla f(x^k)-\overline{\nabla f(x^*)}_{0}||^2\geq l\cdot |f(x^k)-f(x^*)|$
+
+I.e. we get an lower bound $||\nabla f(x^k)||^2\geq l\cdot\big(f(x^k)-f(x^*)\big)$, hence
+\begin{align*}
+    f(^{k+1})-f(x^*)&\leq f(x^k)-f(x^*)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\cdot l\cdot\big(f(x^k)-f(x^*)\big)\\
+    &\leq \big(f(x^k)-f(x^*)\big)(1-\overline{\frac{\sigma(1-\sigma)\mu^2l}{2L}}_{>0,<1}
+\end{align*}
+
+Thus the sequence $\big(f(x^k)-f(x^*)\big)$ converges linearly to 0
+
+\thm
+For a strongly convex quadratic function, the steepest descent method with exact line search has $||x^k-x^*||$ converges linearly to 0. Also this bound is tight, i.e. cannot converge with $d>1$
+
+Thm 7.2.1 shows that in many cases, the sequence converges linearly and Thm 7.2.2 shows that not many can converge over linealy, this leads to the next section
+
+\section{Newton Step}
+Consider a quadratic approximation of $f$ at $x^k$ : 
+\begin{align*}
+    f(x^k+h)\approx q(h)=f(x^k)+h^T\nabla f(x^k)+\frac{1}{2}h^T\nabla^2 f(x)h
+\end{align*}
+
+If( and only if ) $\nabla f^2(x^k)$ is p.d., $q(h)$ has a unique minimizer $h=-[\nabla^2f(x^k)]^{-1}\nabla f(x^k)$
+
+The newton step is given by taking $p^k=-[\nabla^2f(x^k)]^{-1}\nabla f(x^k)$, note clearly it only works if the $\nabla^2(f^k)$ is p.d.
 \end{document}
