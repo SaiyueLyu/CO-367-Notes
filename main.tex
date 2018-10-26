@@ -1722,4 +1722,69 @@ Consider a quadratic approximation of $f$ at $x^k$ :
 If( and only if ) $\nabla f^2(x^k)$ is p.d., $q(h)$ has a unique minimizer $h=-[\nabla^2f(x^k)]^{-1}\nabla f(x^k)$
 
 The newton step is given by taking $p^k=-[\nabla^2f(x^k)]^{-1}\nabla f(x^k)$, note clearly it only works if the $\nabla^2(f^k)$ is p.d.
+
+\defn[Linearly \& Quadratic Convergence]
+A sequence $s^0,s^1,\cdots$ converges linearly to zero if $|s^{k+1}\leq C\cdot |s^k|$ for some $0<C<1$, the sequence converges quadratically if $|s^{k+1}|\leq C\cdot |s^k|^2$ for some $C>0$
+
+\note Newton's Method : $x^{k+1}=x^k-\nabla^2 f(x^k)^{-1}\nabla f(x^k)$
+
+\lemma
+Let $F:\bR^n\to\bR^{m\times m}$ be continuous over $B_r(x_0)$ for some $x_0\in\bR^n$ such that $F(x_0)$ is nonsingular. Then there exists $R>0$ such that $F(x)$ is invertible for all $x\in B_R(x_0)$ and $F(x)^{-1}$ is continuous over $B_R(x_0)$
+\proof
+Given any matrix $A\in\bR^{m\times m}$, $det(A)$ is a polynomial in all entries of $A$
+
+Since $det\big(F(x_0)\big)\neq 0$, then there exists $R>0$ such that $det\big(F(x)\big)\neq 0$ for all $x\in B_R(x_0)$
+
+Still given $A\in \bR^{m\times m},\,(A^{-1})_{ij}=\frac{P}{det(A)}$ where $P$ is a polynomial in entries of $A$
+
+Thus $\big(F(x)^{-1})$ is a polynomial in $F(x)$ divided by another nonzero polynomial, hence it is continuous
+
+\thm
+Let $f:\bR^n\to\bR$ be such that $f\in C^2(\big(B_r(x^*)\big)$, if 
+
+(1) $\nabla^2 f$ is Lipschitz continuous over $B_r(x^*)$, i.e.
+\begin{align*}
+    ||\nabla^2 f(y)-\nabla^2 f(x)||_2\leq L\cdot ||y-x||_2
+\end{align*}
+(2) $\nabla f(x^*)=0$ and $\nabla^2 f(x^*)$ is p.d. (2nd order sufficient conditions for local optimality)
+
+(3) $\nabla^2 f(x)^{-1}||\leq 2||\nabla^2f(x^*)^{-1}||$ for all $x\in B_r(x^*)$ (By lemma, there exists $r$ sufficiently small such that this is satisfied)
+
+(4) $r\leq \frac{1}{2L||\nabla^2f(x^*)^{-1}||}$
+
+Then Newton's Method converges quadratically to $x^*$ if $x^0\in B_r(x^*)$
+\proof
+Assume for induction that $x^k\in B_r(x^*)$, we will show that $x^{k+1}\in B_r(x^*)$
+\begin{align*}
+    x^{k+1}-x^*&=x^k-\nabla^2f(x^k)^{-1}\nabla f(x^k)-x^*\\
+    &=\nabla^2 f(x^k)^{-1}\cdot\big(\nabla^2f(x^k)(x^k-x^*)-(\nabla f(x^k)-\overline{\nabla f(x^*)}_{=0}\big)\\
+    &=\nabla^2 f(x^k)^{-1}\cdot \big(\int_0^1\underbrace{\nabla^2 f(x^k)(x^k-x^*)dt}_{\mbox{does not vary with }t}-\int_0^1\underbrace{\nabla^2 f(x^*+t(x^k-x^*))(x^k-x^*)dt}_{\begin{subarray}{l}\text{directional derivative of $\nabla f$}\\
+    \text{in direction $(x^k-x^*)$}\\
+    \text{integrated from $x^*$ to $x^k$}\end{subarray}}\\
+    &=\underbrace{\nabla^2 f(x^k)^{-1}}_{(a)}\cdot\underbrace{\int_0^1\big(\nabla^2f(x^k)-\nabla^2f(x^*+t(x^k-x^*))\big)(x^k-x^*)dt}_{(b)}
+\end{align*}
+\begin{align*}
+(a)\,:\,&||\nabla^2 f(x^k)^{-1}||\leq 2\cdot ||\nabla^2 f(x^*)^{-1}||\mbox{ by (3)}\\
+(b)\,:\,&\,\,||\int_0^1\big(\nabla^2f(x^k)-\nabla^2f(x^*+t(x^k-x^*))\big)(x^k-x^*)dt||\\&\leq \int_0^1||(\nabla^2f(x^k)-\nabla^2f(x^*+t(x^k-x^*))||\cdot ||x^k-x^*||dt\\
+&\leq \int_0^1L\cdot ||x^k-x^*-t(x^k-x^*)||\cdot||x^k-x^*||dt\\
+&\leq L\cdot \int_0^1||(x^k-x^*)(1-t)||\cdot ||x^k-x^*||dt\\
+&=L\cdot ||x^k-x^*||^2\int_0^1(1-t)dt\\
+&=\frac{L\cdot ||x^k-x^*||^2}{2}
+\end{align*}
+
+Therefore have
+\begin{align*}
+    ||x^{k+1}-x^*||\leq 2\cdot ||\nabla^2 f(x^*)^{-1}||\cdot \frac{L\cdot ||x^k-x^*||^2}{2}
+\end{align*}
+
+By induction, we have $||x^k-x^*||\leq r$ and by (4) $r\leq \frac{1}{2L||\nabla^2f(x^*)^{-1}||}$, hence have
+\begin{align*}
+    ||x^{k+1}-x^*||\leq \frac{1}{2r}||x^k-x^*||^2
+\end{align*}
+
+So the convergence (if any) is quadratic
+
+And since $||x^k-x^*||\leq r$, we have $||x^{k+1}-x^*||\leq \frac{1}{2}||x^k-x^*||$
+
+Therefore we have the convergence
 \end{document}
