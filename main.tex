@@ -1787,4 +1787,87 @@ So the convergence (if any) is quadratic
 And since $||x^k-x^*||\leq r$, we have $||x^{k+1}-x^*||\leq \frac{1}{2}||x^k-x^*||$
 
 Therefore we have the convergence
+
+\chapter{Trust Region Methods}
+
+{\bf Algorithm}
+
+Choose $x^0$ arbitrarily
+
+Let $\delta^0=1$
+
+For $k=0,1,\cdots$
+
+\hspace{1cm} Let $q(x)$ be a quadratic approximation of $f$ that is accurate around $x^k$
+
+\hspace{1cm} $x^{TEST}:=argmin\{q(x):||x-x^k|\leq \delta^k\}$
+
+\hspace{1cm} $\rho:=\frac{f(x^k)-f(x^{TEST})}{q(x^k)-q(x^{TEST})}\,\,$ // The ratio of decrease
+
+\hspace{2cm} If $\rho\geq 1/8$
+
+\hspace{3cm} $x^{k+1}=x^{TEST}$
+
+\hspace{2cm} Else $x^{k+1}=x^k$
+
+\hspace{2cm} If $\rho\leq 1/4$
+
+\hspace{3cm} $\delta^{k+1}=\delta^k/2$
+
+\hspace{2cm} Else if $\rho\geq 3/4$ and $||x^{TEST}-x^k||=\delta^k$
+
+\hspace{3cm} $\delta^{k+1}=2\cdot \delta^k$
+
+\hspace{2cm} Else $\delta^{k+1}=\delta^k$
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=14cm, height=10cm]{trustregionalg.jpg}
+\end{figure}
+
+\note 
+$\bullet$ There are other possible choices, but we consider 
+\begin{align*}
+    q(x)=f(x^k)+(x-x^k)^T\nabla f(x^k)+\frac{1}{2}(x-x^k)^T\nabla^2f(x^k)(x-x^k)
+\end{align*}
+$\bullet$ $\rho$ is the ratio $\frac{\mbox{decrease in }f}{\mbox{decrease in }q}$ from $x^k$ to $x^{TEST}$. The decrease in $q$ is guaranteed $\geq 0$ since $q(x^k)$ is considered in the agrmin set.
+
+$\bullet$ If $x^{TEST}=x^k$, then the 2nd order sufficient conditions are satisfied. $\rightarrow$ STOP
+
+$\bullet$ $\delta^k$ is the {\bf Trust Region Radius}. We consider $q$ is a "good" approximation of $f$ in $B_{\delta^k}(x^k)$. If $\rho$ is small, the approximation is bad, and we decrease $\delta^k$
+
+\thm
+Let $f\in C^2(\bR^n)$ and assume that $\nabla^2f$ is Lipschitz continuous in a ball that contains the level set of $x^0$. Then for the trust region method
+
+(1) Either $x^k\to-\infty$ or $\nabla f(x^k)\to 0$ (similar as descent method)
+
+(2) If $x^k\to x^*$, then $x^*$ satisfies 1st and 2nd order necessary condition for local optimality
+
+(3) If $x^k\to x^*$ and $x^*$ satisfies the 1st and 2nd sufficient conditions for local optimality, then for $k$ large enough, $||x^{TEST}-x^k||\leq \delta^k$, the step is {\bf Newton's Step}, so the convergence is quadratic.
+
+\section{The Trust Region Subproblem (TRS)}
+\begin{align*}
+    argmin \{\overbrace{f(x^k)}^{constant}+(x-x^k)^T\nabla f(x^k)+\frac{1}{2}(x-x^k)^T\nabla^2f(x^k)(x-x^k)\,:\,||x-x^k||\leq 1\}
+\end{align*}
+
+For simplicity, let $\tilde{x}=\frac{x-x^k}{\delta^k}$, we get
+\begin{align*}
+    &agrmin\{\big(\delta^k\nabla f(x^k)\big)^T\cdot \tilde{x}+\tilde{x}^T\big((\delta^k)^2\frac{1}{2}\nabla^2 f(x^k)\big)\tilde{x}\,:\,||\tilde{x}||\leq 1\}\\
+    =&argmin\{x^TAx+b^Tx:||x||\leq 1\}\,\mbox{where }A=\frac{(\delta^k)^2}{2}\nabla^2f(x^k),b=\delta^k\nabla f(x^k)
+\end{align*}
+
+
+How do we solve (TRS)?
+\begin{align*}
+    &min\,\,\,\,x^TAx+b^Tx\\
+    &s.t.\,\,\,\,\,\,\,\,\,||x|\leq 1
+\end{align*}
+
+If $A$ is p.d., then we can compute $\hat{x}=-\frac{1}{2}A^{-1}b$
+
+{\bf CASE 1} $A$ is p.d. and $||\hat{x}||\leq 1$
+
+Then $\hat{x}$ is optimal for (TRS)
+
+{\bf CASE 2} $A$ is not p.d. or $||\hat{x}||>1$
 \end{document}
