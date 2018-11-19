@@ -272,7 +272,7 @@ $g(x)=|x-2|$ is continuous and $C^0$ smooth
 
 $f(x)=\begin{cases}
     \frac{1}{2}(x-2)^2,& \text{if } x\geq 2\\
-    \frac{1}{@}(2-x)^2,& \text{if } x< 2            
+    \frac{1}{2}(2-x)^2,& \text{if } x< 2            
 \end{cases}$ is continuous and $C^1$ smooth
 
 \defn[Gradient]
@@ -280,7 +280,7 @@ Let $f\in C^1(D)$ for some $D\subset \bR^n$. Its Gradient $\nabla f\in C^0(D): D
 \begin{center}
     $\nabla f(x)=\begin{bmatrix}
     \frac{\partial f}{\partial x_1}(x)\\
-    \vdots
+    \vdots\\
     \frac{\partial f}{\partial x_n}(x)\\
     \end{bmatrix}$
 \end{center}
@@ -306,7 +306,7 @@ A norm $||\cdot||$ on $\bR^n$ assigns a scalar $||x||$ to every $x\in\bR^n$ such
 
 1) $||x||\geq 0,\forall x\in\bR^n$
 
-2) $||c\cdot x||=|c|\cdot||x|\,\forall c\in\bR, x\in\bR^n$
+2) $||c\cdot x||=|c|\cdot||x||\,\forall c\in\bR, x\in\bR^n$
 
 3) $||x||=0\Longleftrightarrow x=0$
 
@@ -560,11 +560,11 @@ For any $A\in\bR^{n\times n}$(possibly non square), $A^TA$ is psd. Then the matr
 \begin{proof}
 1) $A^TA$ is square and symmetric (immediate)
 
-2) $A^TA$ is psd. : $\forall x\in\bR^n, x^T(A^TA)x=(Ax^T)(Ax)=||Ax||_2^2\geq 0$
+2) $A^TA$ is psd. : $\forall x\in\bR^n, x^T(A^TA)x=(Ax)^T(Ax)=||Ax||_2^2\geq 0$
 
 3) pd. iff $rank(A)=n$ : 
 \begin{align*}
-    &x^TA^TAx>0,\forall x\in bE^n, x\neq 0\\
+    &x^TA^TAx>0,\forall x\in \bR^n, x\neq 0\\
     \Longleftrightarrow &||Ax||_2^2>0\\
     \Longleftrightarrow &||Ax||_2>0\\
     \Longleftrightarrow &Ax\neq 0, \forall x\in\bR^n, x\neq 0\\
@@ -628,7 +628,7 @@ A set $C\subset \bR^n$ is convex if $\lambda x+(1-\lambda)y\in C,\forall x,y\in 
 A "donut" is nonconvex
 
 \defn[Convex Function]
-Let $D\subset\bR^n$ be a convex set, a function $f : D\to \bR$ is sid to be convex if $f\big(\lambda x+(1-\lambda)y\big)\leq \lambda f(x)+(1-\lambda)f(y), \forall x,y\in D, \forall 0\leq \lambda\leq 1$
+Let $D\subset\bR^n$ be a convex set, a function $f : D\to \bR$ is said to be convex if $f\big(\lambda x+(1-\lambda)y\big)\leq \lambda f(x)+(1-\lambda)f(y), \forall x,y\in D, \forall 0\leq \lambda\leq 1$
 
 A function is said to be strict convex if a strict inequality ($<$) holds as well
 
@@ -655,7 +655,7 @@ The epigraph of $f$ is s subset of $\bR^{n+1}$ given by $epi(f)=\{(x,\alpha), x\
 
 \note The converse of 1) is not true ! For example, $f(x)=\sqrt{|x|}$
 
-The level sets of $f$ is $\sqrt{|x|}\leq\alpha\Longleftrightarrow|x|\leq\alpha^2\Longleftrightarrow\alpha^2\leq x\leq \alpha^2$
+The level sets of $f$ is $\sqrt{|x|}\leq\alpha\Longleftrightarrow|x|\leq\alpha^2\Longleftrightarrow-\alpha^2\leq x\leq \alpha^2$
 
 However, $f$ is not convex !
 
@@ -708,7 +708,7 @@ The "direction" draws out the function
 Let $f\in C^1$, then $\nabla_h f=h^T \nabla f$
 \begin{proof}
 \begin{align*}
-\nabla_h  f&=\lim_{\alpha\to 0}\frac{f(x+\alpha h)-f(x0}{\alpha}\\
+\nabla_h  f&=\lim_{\alpha\to 0}\frac{f(x+\alpha h)-f(x)}{\alpha}\\
 &=\lim_{\alpha\to 0}\frac{f(x)+\alpha h^T\nabla f(x)+\phi(\alpha h)-f(x)}{\alpha}\\
 &=\lim_{\alpha\to 0}\frac{\alpha h^T\nabla f(x)+\phi(\alpha h)}{\alpha}\\
 &=\lim_{\alpha \to 0}\frac{\alpha h^T \nabla f(x)}{\alpha}+\lim_{\alpha\to 0}\frac{\phi(\alpha h)}{\alpha}\\
@@ -853,7 +853,7 @@ Let $f:\bR^n\to\bR\in C^2\big(B_{\delta}(x^*)\big), x^*\in\bR, \delta>0$. If $\n
 \begin{proof}
 By Talor 2nd order, $\forall h\in B_{\delta}(x^*)$
 \begin{center}
-    $f(x^*)+h^T\nabla f(x^*)+\frac{1}{2}h^T\nabla^2f(x^*)h+\phi(x)$ where $\lim_{h\to 0, h\neq 0}\frac{\phi(h)}{||h||}=0$
+    $f(x^*+h)=f(x^*)+h^T\nabla f(x^*)+\frac{1}{2}h^T\nabla^2f(x^*)h+\phi(x)$ where $\lim_{h\to 0, h\neq 0}\frac{\phi(h)}{||h||}=0$
 \end{center}
 
 Let $0<\lambda_1<\cdots<\lambda_n$ be the positive eigenvalues of $\nabla^2f(x^*)$
@@ -1138,7 +1138,7 @@ Let $A\in\bR^{n\times n}$ and let $G$ be the symmetric part of $A$, i.e. $G:=(A+
 \begin{align*}
     G^T=(\frac{A+A^T}{2})^T=\frac{1}{2}(A+A^T)=G
 \end{align*}
-(2) Observe that $x^TAx$ is scalar so $(x^TAx)^T=x^TAx$, then
+(2) Observe that $x^TAx$ is scalar so $(x^TAx)^T=x^TA^Tx$, then
 \begin{align*}
     x^TAx=\frac{x^TAx}{2}+\frac{x^TAx}{2}=\frac{x^TAx}{2}+\frac{x^TA^Tx}{2}=\frac{1}{2}x^T(A+A^T)x=x^TGx
 \end{align*}
@@ -1152,7 +1152,7 @@ The kernel (or null space)of $A\in\bR^{m\times n}$ is $Null(A)=\{x:Ax=0, x\in\bR
 \thm[Relation of Range and Null]
 Let $C\in\bR^{m\times n}$. If $y\in Range(C^T)$ and $z\in Null(C)$, then $y^Tz=0$
 \begin{proof}
-Since $y\in Range(C^T)$, then $\exists x\in\bR^m$ such that $y=c^Tx$, hence
+Since $y\in Range(C^T)$, then $\exists x\in\bR^m$ such that $y=C^Tx$, hence
 \begin{align*}
     y^Tz=(C^Tx)^Tz=x^T\underbrace{Cz}_{0\mbox{ since }z\in Null(C)}=0
 \end{align*}
@@ -1182,7 +1182,7 @@ We get $b\in Null(C)\cap Null(C)^{\perp}$, therefore $b=0$
 
 (2) $\frac{\partial}{\partial x_k}x^TAx=\frac{\partial}{\partial x_k}\sum_{i,j} A_{ij} x_ix_j=\frac{\partial}{\partial x_k}(\sum_{j\neq k}A_{kj}x_kx_j+\sum_{i\neq k}A_{ik}x_ix_k+A_{kk}x_k^2)$
 
-\hspace{2cm}(as $A$ is symmetric) $=(\sum_{j\neq k}A_{kj}x_kx_j+\sum_{i\neq k}A_{ki}x_ix_k+A_{kk}x_k^2)$
+\hspace{2cm}(as $A$ is symmetric) $=\frac{\partial}{\partial x_k}(\sum_{j\neq k}A_{kj}x_kx_j+\sum_{i\neq k}A_{ki}x_ix_k+A_{kk}x_k^2)$
 
 \hspace{5.5cm}$=\frac{\partial}{\partial x_k}(2\sum_{j\neq k}A_{kj}x_kx_j+A_{kk}x_k^2)$
 
@@ -1190,9 +1190,9 @@ We get $b\in Null(C)\cap Null(C)^{\perp}$, therefore $b=0$
 
 \hspace{5.5cm}$=k$th row of $2Ax$
 
-\hspace{0.5cm}$\nabla x^Tx=2Ax$
+\hspace{0.5cm}$\nabla x^TAx=2Ax$
 
-(3) $\nabla^2bx=0$
+(3) $\nabla^2b^Tx=0$
 
 (4) $\frac{\partial^2}{\partial x_k\partial x_l}x^TAx=\frac{\partial}{\partial x_l}(2\sum_{j}A_{kj}x_j)=2A_{kl}$, $\nabla^2x^TAx=2A$
 
@@ -1353,7 +1353,7 @@ The Jacobian matrix of $g$ is given by
     &=2 e_k^T J(x)^T g_i(x)
 \end{align*}
 
-Thus $\nabla f(x)=2 J(x)^Tg(x)$
+Thus $\nabla f(x)=2 J(x)^Tg(x)$ (think about Chain Rule)
 
 \note
 If $g_i(x^*)=0$, then $\nabla f(x^*)=0$ and $x^*$ is a global minimizer
@@ -1371,13 +1371,13 @@ If $g_i(x^*)=0$, then $\nabla f(x^*)=0$ and $x^*$ is a global minimizer
     \mbox{for }& k=0,1,2,\cdots\\
     &\mbox{Choose a search direction }p^k\in\bR^n\\
     &\mbox{Choose a step length }\alpha^k>0\\
-    &\mbox{Let }x^{k+1}=x^k+\alpha^2p^k
+    &\mbox{Let }x^{k+1}=x^k+\alpha^kp^k
 \end{align*}
 \note $\alpha^k$ is not $\alpha$ to the power $k$, same for $p^k,x^k$. Also the objective function $f(x^{k+1})$ should be much smaller than $f(x^k)$ and $x^k$ converges as fast as possible
 
 $\ $
 
-{\bf Steepest Descent} $p^k=-\nabla f(x^k)$
+{\bf Steepest Descent }  $p^k=-\nabla f(x^k)$
 
 $\ $
 
@@ -1492,7 +1492,7 @@ $\psi'(0)=\nabla f(x^k)^Tp^k<0$ since we assume $p^k$ is a descent direction
     \psi(\alpha)\leq \psi(0)+\sigma \alpha\psi'(0)
 \end{align*}
 
-{\bf Curvature Condition (Scveral Variants}
+{\bf Curvature Condition (Scveral Variants)}
 \begin{align*}
     \psi(2\cdot \alpha)>\psi(0)+\sigma 2\alpha \psi'(0)
 \end{align*}
@@ -1513,7 +1513,7 @@ Else $\alpha$ fails curvature condition
 
 \hspace{1cm} While $\alpha$ fails curvature condition
 
-\hspace{2cm} $\alpha :=\alpha/2$
+\hspace{2cm} $\alpha :=\alpha\cdot 2$
 
 \thm
 Let $f\in C^1, \nabla f(x^k)\neq 0$ and let $p^k$ be a descent direction, then
@@ -1530,7 +1530,7 @@ We need to show that the first loop terminates:
     \psi(\alpha)=\psi(0)+\alpha\cdot\psi'(0)+\phi(\alpha)
 \end{align*}
 
-For $\alpha$ sufficient small, by Lemma 7.0.1, have 
+For $\alpha$ sufficient small, by Lemma 7.0.1, (note $\psi'(0)<0$), have 
 \begin{align*}
     |\phi(\alpha)|&\leq \alpha|\frac{1}{2}\psi'(0)|\\
     \phi(\alpha)&\leq -\alpha\frac{1}{2}\psi'(0)
@@ -1698,12 +1698,12 @@ From the previous proof we have
 f(^{k+1})&\leq f(x^k)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\nabla f(x^k)||^2\\
 f(^{k+1})-f(x^*)&\leq f(x^k)-f(x^*)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\nabla f(x^k)||^2
 \end{align*}
-By Lemma 7.2.1, $||\nabla f(x^k)-\overline{\nabla f(x^*)}_{0}||^2\geq l\cdot |f(x^k)-f(x^*)|$
+By Lemma 7.2.1, $||\nabla f(x^k)-\underbrace{\nabla f(x^*)}_{0}||^2\geq l\cdot |f(x^k)-f(x^*)|$
 
 I.e. we get an lower bound $||\nabla f(x^k)||^2\geq l\cdot\big(f(x^k)-f(x^*)\big)$, hence
 \begin{align*}
-    f(^{k+1})-f(x^*)&\leq f(x^k)-f(x^*)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\cdot l\cdot\big(f(x^k)-f(x^*)\big)\\
-    &\leq \big(f(x^k)-f(x^*)\big)(1-\overline{\frac{\sigma(1-\sigma)\mu^2l}{2L}}_{>0,<1}
+    f(x^{k+1})-f(x^*)&\leq f(x^k)-f(x^*)-\frac{\sigma(1-\sigma)\mu^2}{2L}||\cdot l\cdot\big(f(x^k)-f(x^*)\big)\\
+    &\leq \big(f(x^k)-f(x^*)\big)(1-\underbrace{\frac{\sigma(1-\sigma)\mu^2l}{2L})}_{>0,<1}
 \end{align*}
 
 Thus the sequence $\big(f(x^k)-f(x^*)\big)$ converges linearly to 0
@@ -1724,7 +1724,7 @@ If( and only if ) $\nabla f^2(x^k)$ is p.d., $q(h)$ has a unique minimizer $h=-[
 The newton step is given by taking $p^k=-[\nabla^2f(x^k)]^{-1}\nabla f(x^k)$, note clearly it only works if the $\nabla^2(f^k)$ is p.d.
 
 \defn[Linearly \& Quadratic Convergence]
-A sequence $s^0,s^1,\cdots$ converges linearly to zero if $|s^{k+1}\leq C\cdot |s^k|$ for some $0<C<1$, the sequence converges quadratically if $|s^{k+1}|\leq C\cdot |s^k|^2$ for some $C>0$
+A sequence $s^0,s^1,\cdots$ converges linearly to zero if $|s^{k+1}|\leq C\cdot |s^k|$ for some $0<C<1$, the sequence converges quadratically if $|s^{k+1}|\leq C\cdot |s^k|^2$ for some $C>0$
 
 \note Newton's Method : $x^{k+1}=x^k-\nabla^2 f(x^k)^{-1}\nabla f(x^k)$
 
@@ -1757,8 +1757,8 @@ Then Newton's Method converges quadratically to $x^*$ if $x^0\in B_r(x^*)$
 Assume for induction that $x^k\in B_r(x^*)$, we will show that $x^{k+1}\in B_r(x^*)$
 \begin{align*}
     x^{k+1}-x^*&=x^k-\nabla^2f(x^k)^{-1}\nabla f(x^k)-x^*\\
-    &=\nabla^2 f(x^k)^{-1}\cdot\big(\nabla^2f(x^k)(x^k-x^*)-(\nabla f(x^k)-\overline{\nabla f(x^*)}_{=0}\big)\\
-    &=\nabla^2 f(x^k)^{-1}\cdot \big(\int_0^1\underbrace{\nabla^2 f(x^k)(x^k-x^*)dt}_{\mbox{does not vary with }t}-\int_0^1\underbrace{\nabla^2 f(x^*+t(x^k-x^*))(x^k-x^*)dt}_{\begin{subarray}{l}\text{directional derivative of $\nabla f$}\\
+    &=\nabla^2 f(x^k)^{-1}\cdot\big(\nabla^2f(x^k)(x^k-x^*)-(\nabla f(x^k)-\overbrace{\nabla f(x^*)}^{=0})\big)\\
+    &=\nabla^2 f(x^k)^{-1}\cdot \big(\int_0^1\underbrace{\nabla^2 f(x^k)(x^k-x^*)dt}_{\mbox{does not vary with }t}-\int_0^1\underbrace{\nabla^2 f(x^*+t(x^k-x^*))(x^k-x^*)dt}_{\begin{subarray}{l}\text{directional derivative of $\nabla f$}\big)\\
     \text{in direction $(x^k-x^*)$}\\
     \text{integrated from $x^*$ to $x^k$}\end{subarray}}\\
     &=\underbrace{\nabla^2 f(x^k)^{-1}}_{(a)}\cdot\underbrace{\int_0^1\big(\nabla^2f(x^k)-\nabla^2f(x^*+t(x^k-x^*))\big)(x^k-x^*)dt}_{(b)}
@@ -1768,8 +1768,8 @@ Assume for induction that $x^k\in B_r(x^*)$, we will show that $x^{k+1}\in B_r(x
 (b)\,:\,&\,\,||\int_0^1\big(\nabla^2f(x^k)-\nabla^2f(x^*+t(x^k-x^*))\big)(x^k-x^*)dt||\\&\leq \int_0^1||(\nabla^2f(x^k)-\nabla^2f(x^*+t(x^k-x^*))||\cdot ||x^k-x^*||dt\\
 &\leq \int_0^1L\cdot ||x^k-x^*-t(x^k-x^*)||\cdot||x^k-x^*||dt\\
 &\leq L\cdot \int_0^1||(x^k-x^*)(1-t)||\cdot ||x^k-x^*||dt\\
-&=L\cdot ||x^k-x^*||^2\int_0^1(1-t)dt\\
-&=\frac{L\cdot ||x^k-x^*||^2}{2}
+&=L\cdot ||x^k-x^*||^2\int_0^1(1-t)dt
+=\frac{L\cdot ||x^k-x^*||^2}{2}
 \end{align*}
 
 Therefore have
@@ -2288,7 +2288,434 @@ Given a point $x\in\bR^n, $ the tangent cone to $\Omega$ at $x$ is $T_{\Omega}(x
 \eg
 $\Omega=\{x\in\bR^2:||x||\leq 1\}$ and $x=[-1,0]^T$, then $T_{\Omega}(x)=\{[d_1,d_2]^T:d_1\geq 0\}$
 
+\lemma
+Let $\phi:\bR\to\bR^n$ and $f:\bR^n\to\bR$ with $\phi_i\in C^1(\bR)$ for all $i$
+ and $f\in C^1(\bR^n)$, then $\big(\frac{d}{dt}f(\phi(t))\big)(t_0)=\nabla f(\phi(t_0))^T(\frac{d}{dt}\phi)(t_0)$
+ \proof
+ By the Chain Rule, given functions $a,b$ : 
+ \begin{align*}
+     a(b(x))'(x_0)=a'(b(x_0))b'(x_0)
+ \end{align*}
+ 
+ Also by the Chain Rule, given $a(y_1,y_2)$
+ \begin{align*}
+     a\big(b(x),c(x)\big)'(x_0)=\frac{\partial}{\partial y_1}a\big(b(x_0),c(x_0)\big)b'(x_0)+\frac{\partial}{\partial y_2}a\big(b(x_0),c(x_0)\big)b'(x_0)
+ \end{align*}
+ 
+ Therefore 
+ \begin{align*}
+     \big(\frac{d}{dt}f(\phi(y))\big)(t_0)=\big(\frac{d}{dx_1}f(\phi(t_0))\big)(\frac{d}{dt}\phi)(t_0)+\cdots+\big(\frac{d}{dx_n}f(\phi(t_0))\big)(\frac{d}{dt}\phi)(t_0)=\nabla f(t_0)^T\phi'(t_0)
+ \end{align*}
+ 
 \thm
 Let $x$ be feasible for (NLP) and assume $L_{(NLP)}=T_{\Omega}$, then if $x$ is a local minimizer of (NLP), then it is a KKT point.
+\proof
+By definition of a KKT point, we want a feasible $x$ and all $d\in L_{(NLP)}(x)$ such that $d^T\nabla f(x)\geq 0$
+
+Let $d\in L_{(NLP)}(x)$, then $d\in T_{\Omega}(x)$, so $\exists\,\phi$ feasible arc at $x$ with direction $d$
+
+Let $\gamma (t)=f(\phi(t))$ for $t\geq 0$
+\begin{align*}
+    \gamma'(0)=\lim_{t\to 0,t>0}\frac{\gamma(t)-\gamma(0)}{t}
+\end{align*}
+
+by definition of $\gamma$, have $\gamma(0)=f(\phi(0))=f(x)$
+
+Since $x$ is a local minimizer, $\gamma(t)-\gamma(0)=f(\phi(t))-f(x)\geq 0$, thus $\gamma'(0)\geq 0$
+
+By the above lemma, $\gamma'(0)=\nabla f(\phi(0))^T\phi'(0)=\nabla f(x)^Td$
+
+Therefore $\nabla f(x)^T d\geq 0$
+
+\eg[when minimizer is not a KKT point]
+\begin{align*}
+    min\,\,&x_1+x_2\\
+    s.t.\,\,&-x_2\leq 0\\
+    &-x_1^3+x_2\leq 0
+\end{align*}
+
+Minimizer is $x^*=[0,0]^T$
+
+Let $f(x)=x_1+x_2, \nabla f(x)=[1,1]^T,\nabla f(x^*)=[1,1]^T$
+
+And $g_1(x)=-x_2,\nabla g_1(x)=[0,-1]^T,\nabla g_1(x^*)=[0,-1]^T$
+
+Also $g_2(x)=-x_1^3+x_2,\nabla g_2(x)=[-3x_1^2,1]^T,\nabla g_2(x^*)=[0,1]^T$
+
+KKT gradient equation system gives
+\begin{align*}
+    \nabla f(x^*)=-\lambda_1 g_1(x^*)-\lambda_2 g_2(x^*)\\
+    \lambda_1 g_1(x^*)=0\\
+    \lambda_2g_2(x^*)=0
+\end{align*}
+
+Which is $-\lambda_1[0,-1]-\lambda_2[0,1]=[1,1]$, which is infeasible, so $x^*$ cannot be a KKT point
+
+$\ $
+
+\note
+In the example, 
+\begin{align*}
+    T_{\Omega}(x^*)=\{x\in\bR^2:x_1\geq 0,x_2=0\}\\
+    L_{(NLP)}(x^*)=\{x\in\bR^2:x_2=0\}
+\end{align*}
+
+These two cones are distinct
+
+The tangent cone only care about the feasible region
+
+The cone of linearized feasible directions cares about the gradients of the specific problem
+
+$\ $
+
+\eg
+\begin{align*}
+    min\,\,&x_1+x_2\\
+    s.t.\,\,&-x_2\leq 0\\
+    &-x_1^3+x_2\leq 0\\
+    &-x_1\leq 0
+\end{align*}
+
+$g_3(x)=-x_1,\nabla g_3(x)=[-1,0]^T,\nabla g(x^*)=[-1,0]^T$
+
+The gradient equation gives $\nabla f(x^*)=-\lambda_1[0,-1]-\lambda_2[0,1]-\lambda_3[1,0]=[1,1]$, which is feasible
+
+Therefore $x^*$ is a KKT point
+
+$\ $
+
+\thm
+$\forall x\in\Omega, T_{\Omega}\subseteq L_{(NLP)}(x)$
+
+\section{Constrained Optimization}
+
+Given NLP
+\begin{align*}
+    min\,\,&f(x)\\
+    s.t.\,\,&g_i(x)\leq 0,i=1,\cdots,m\\
+    &h_j(x)=0,j=1,\cdots,p
+\end{align*}
+
+$T_{\Omega}(x)=\{d\in\bR^n:\exists\,\mbox{ feasible arc }\phi:\phi'(0)=d\}$
+
+$L_{NLP}(x)=\{d\in\bR^n:\nabla g_i(x)^Td\leq 0,\forall i:g_i(x)=0,\nabla h_j(x)^Td=0,\forall j\}$
+
+KKT Point : 
+$x\in\Omega$ is a KKT point if $\nabla f(x)^Td\geq 0,\forall d\in L_{NLP}(x)$, iff $\exists\,\lambda_i,\mu_i$ where all these holds:
+\begin{align*}
+    -\sum\lambda_i\nabla g_i(x)+\sum\mu_ih_i(x)&=\nabla f(x)\\
+    \lambda_i&\geq 0\\
+    \lambda_ig_i(x)&=0,\forall i
+\end{align*}
+
+\thm
+Let $x\in \Omega$ such that $T_{\Omega}(x)=L_{NLP}(x)$, if $x$ is a local minimizer, then $x$ is a KKT point
+
+$\ $ 
+
+\defn[Constraint Qualification]
+A constrained qualification (CQ) is a condition on the feasible set of NLP s.t. $T_{\Omega}(x)=L_{NLP}(x)$
+
+\thm
+Let $x\in \Omega$, then $T_{\Omega}(x)\subseteq L_{NLP}(x)$
+\proof
+Let $x\in\Omega$ and $d\in T_{\Omega}(x)$
+
+There exists $c>0$ and $\phi:[0,c]$ such that 
+\begin{center}
+    $\phi(0)=x$\\
+    $\phi\mbox{ is }C^0\mbox{ smooth and }\phi'(0)=d$\\
+    $\phi(t)\in\Omega,\forall t\in[0,c]$
+\end{center}
+
+We want $d\in L_{NLP}(x)$ such that
+\begin{align*}
+    &\nabla g_i(x)^Td=0,\forall i\mbox{ such that} g_i(x)=0\\
+    &\nabla h_j(x)^Td=0,\forall j
+\end{align*}
+
+Suppose $\exists\,i:g_i(x)=0$, consider Taylor expansion $g_i\circ\phi$ at 0 in the direction $t\in[0,c]$
+
+Define a function $o(t)$ where $\lim_{t\to 0}\frac{o(t)}{t}=0$
+
+Note that $g_i\big(\phi(t)\big)\leq 0$ and that $g_i\big(\phi(0)\big)=g_i(x)=0$, hence have
+\begin{align*}
+    g_i\big(\phi(t)\big)&=g_i\big(\phi(0)\big)+g_i'\big(\phi(0)\big)t+o(t)\\
+    0&\geq g_i'\big(\phi(0)\big)t+o(t)\\
+    &=\nabla g_i\big(\phi(0)\big)^T\phi'(0)t+o(t)\\
+    &=\nabla g_i\big(\phi(0)\big)^Tdt+o(t)\\
+(\mbox{Divide both sides by }t)\,\,    0&\geq \nabla g_i\big(\phi(0)\big)^Td+\frac{o(t)}{t}\\
+(\mbox{Taking the limit of both sides})\,\,0&\geq \nabla g_i\big(\phi(0)\big)^Td+\lim_{t\to 0}\frac{o(t)}{t}\\
+&=\nabla g_i\big(\phi(0)\big)^T d
+\end{align*}
+
+Exercise : do for $h_j(x)$
+
+$\ $
+
+\defn[Linear Independence CQ (LICQ)]
+The LICQ holds at $x\in\Omega$ if the set $\{\nabla g_i(x):g_i(x)=0\}\cup\{\nabla h_j(x):\forall j\}$ is linear independent
+
+\thm
+Let $x\in\Omega$, if $x$ satisfies LICQ, then $T_{\Omega}(x)=L_{NLP}(x)$
+\proof read up on it
+
+\note $h(x)=0\Longleftrightarrow h(x)\leq 0,-h(x)\leq 0$
+
+\eg
+$\min\{x_1+x_2:-x_2\leq 0,-x_1^3+x_2\leq0\}$ with $x^*=[0,0]$
+
+Does the LICQ hold at $x^*$?
+
+$\nabla g_1(x)=[0,-1],\,\nabla g_2(x)=[-3x_1^2,1]$ at $x^*$ : $\{[0,-1],[0,1]\}$, not linearly independent
+
+$\ $
+
+\defn[Linear Programming CQ (LPCQ)]
+The LPCQ holds at $x\in\Omega$ if all the tight constraints are affine (of form $ax-b$)
+
+\thm
+Let $x\in\Omega,$ if the LPCQ holds at $x$, then $T_{\Omega}(x)=L_{NLP}(x)$
+\proof
+Let $x\in\Omega$ be such that LPCQ holds
+
+Then by definition of LPCQ, have
+\begin{align*}
+    &g_i(x)<0,i=1,\cdots,k\mbox{ for some }k\\
+    &g_i(x)=0,i=k+1,\cdots,m\,\,\Longrightarrow\,g_i(x)=a_i^Tx-b_i\\
+    &h_j(x)=0,\forall j\,\,\Longrightarrow\,h_j(x)=a_j^Tx-b_j
+\end{align*}
+
+Let $d\in L_{NLP}(x)$, we want to prove $d\in T_{\Omega}$ by definition of $L_{NLP}(x)$, we have
+\begin{align*}
+    0&\geq \nabla g_i(x)^Td=a_i^Td,i=k+1,\cdots,m\\
+    0&=\nabla h_j(x)^Td=a_j^Td,\forall j
+\end{align*}
+
+Consider $\phi(t)=x+td$, we have $\phi(0)=x$ smooth with $\phi'(t)=d,\phi(t)\in\Omega$, have
+\begin{align*}
+   \forall j, h_j(x+td)&=a_j^T(x+td)-b_j=a_j^Tx-b_j+a_j^Ttd=a_j^Tx-b_j=0\\
+   \forall i=k+1,\cdots,m,
+    g_i(x+td)&=a_j^T(x+td)-b_i=a_i^Tx-b_i+a_i^Ttd=g_i(x)+t\nabla g_i(x)^Td\geq 0\\
+    \forall i=1,\cdots,k,
+    g_i(x+td)&\leq 0,\forall t\in[0,\epsilon_i),\epsilon_i>0,\mbox{ by continuity of }g_i
+\end{align*}
+
+Then $\phi$ is a feasible arc $\forall t\leq min\{\epsilon_i\}$, so $d\in T_{\Omega}(x)$
+
+$\ $
+
+\thm
+Let $x\in\Omega$ such that a CQ holds at $x$, if $x$ is a local minimizer, then $x$ is also a KKT point
+
+$\ $
+
+{\bf Review}
+
+{\bf LICQ }The set $\{\nabla gi(x):g_i(x)=0\}\cup\{\nabla h_j(x),\forall i\}$ is linearly independent
+
+{\bf LPCQ }The tight constraints at $x$ are all affine.
+
+$\ $
+
+$x$ is a KKT point if $\exists\, \lambda_i,\mu_j$ such that 
+
+(1) $\nabla f(x)=-\sum\lambda_i\nabla g_i(x)+\sum\mu_j\nabla h_j(x)$
+
+(2) $\lambda_i\geq 0$
+
+(3) $\lambda_ig_i(x)=0$
+
+\section{Constraint Qualifications}
+
+\eg
+\begin{align*}
+    min\,\,&\,\,x^TAx\,\,\,,x\in\bR^n,A\in\bR^{n\times n}\,\,symmetric\\
+    s.t.\,\,&||x||=1
+\end{align*}
+
+note this is a continuous function on a compact constrained set, but the norm function is not continuously differentiable, how do we fix this? we can fix the constrained to be $||x||^2=1$, which is a equivalent one. Now check the constrained qualification before do KKT point
+
+We have {\bf LICQ } as the set $\{2x\}$ is linearly independent when $x\neq 0$, then every minimizer will satisfies the KKT, i.e. KKT satisfies at $\bar{x}$ if $\exists\,\mu$ such that
+\begin{align*}
+    (1) 2A\bar{x}=\mu(2\bar{x})\,\Longleftrightarrow\,A\bar{x}=\mu\bar{x}\,,\mbox{ at }\bar{x}\mbox{ the objective value is }\bar{x}^TA\bar{x}=\bar{x}^T(\mu\bar{x})=\mu
+\end{align*}
+
+\section{Convex NLP}
+\begin{align*}
+    min\,\,&f(x)\\
+    s.t.\,\,&g_i(x)\leq 0,\forall i\\
+    &h_j(x)=0,\forall j\\
+    &f\,,\,g_i\mbox{ are convex}\\
+    &h_j\,\mbox{ is affine}
+\end{align*}
+
+\defn[Slater CQ or Strict Feasibility]
+The Slater CQ holds for (Convex Program) if $\exists\,\bar{x}\in\Omega$ s.t. $g_i(\bar{x})<0,\forall i$
+
+\thm
+If the slater CQ holds for (CP), then $T_{\Omega}(x)=L_{NLP}(x)$ for all $x\in\Omega$
+
+\thm
+Let $x$ be a KKT point for (CP), then $x$ is a global minimizer of (CP).
+\proof
+Let $y\in\Omega, y\neq x$, we want to show that $f(x)\leq f(y)$
+
+Since $x$ is a KKT point, it follows that $\nabla f(x)^Td\geq 0\,\forall d\in L_{NLP}(x)$
+
+Now we show that $d:=(y-x)\in L_{NLP}(x)$
+
+Recall that if $c\in C^1$ and convex function, then
+\begin{align}
+c(\hat{x})\geq c(\bar{x}+\nabla c(\bar{x})^T(\hat{x}-\bar{x})\forall \hat{x},\bar{x}
+\end{align}
+
+Suppose there is a tight constraint $i$ be such that $g_i(x)=0$, then by (9.1), have
+\begin{align*}
+    \underbrace{g_i(y)}_{\leq 0}&\geq \underbrace{g_i(x)}_{=0}+\nabla g_i(x)^T(y-x)\\
+    0&\geq \nabla g_i(x)^T(y-x)
+\end{align*}
+
+Suppose there is a affine constraint $j\in\{1,\cdots,p\}$, we need $\nabla h_j(x)^T(y-x)=0$
+
+Since $h_j$ is affine, $h_j(x)=a_j^Tx+b_j$, hence
+\begin{align}
+    &h(x)=0\,\,\Longleftrightarrow\,\,a_j^Tx+b_j=0\\
+    &h(y)=0\,\,\Longleftrightarrow\,\,a_j^Ty+b_j=0
+\end{align}
+
+Subtract (9.2) and (9.3), we have $a_j^T(y-x)=0$, i.e. $\nabla h_j(x)^T(y-x)=0$
+
+We have shown that $d:=(y-x)\in L_{NLP}(x)$
+
+By the KKT conditions $\nabla f(x)^Td\geq 0,\forall d\in L_{NLP}(x)$, which gives $\nabla f(x)^T(y-x)\geq 0$
+
+Since $f$ is convex by (9.1), we have
+\begin{align*}
+    f(y)\geq f(x)+\nabla f(x)^T(y-x)\geq f(x)
+\end{align*}
+
+What if $g_i(x)<0$? Things can be really good or really bad
+
+Consider $g_i(x)<0$ is an open set (for example interval), if $f$ is linear, then we can never obtain an optimal soln, thus there is no KKT point
+
+if $f$ is quadratic and obtain the minimal value at $z$ in the interior of the open set, then $\nabla f(z)=0$, we have $0=\nabla f(x)=-\sum \lambda_i\nabla g_i(x)+\sum\mu_j\nabla h_j(x)$, we can just choose $\lambda_i=\mu_j=0$
+
+\cor
+Suppose the slater CQ holds for (CP), then $x$ is a global minimizer iff $x$ is a KKT point
+
+\remark
+All the results for convex optimization also hold when the function are not $C^1$
+
+$\ $
+
+\eg
+\begin{align*}
+    min\,\,&\,||x-x^0||_2^2\,\,\,\,\mbox{ this is called projection}\\
+    s.t.\,\,&\,l_i\leq x_i\leq u_i,\forall i\,\,l_i<u_i\,\,\mbox{ this is called Box constraint}
+\end{align*}
+
+note the objective function is a strict convex quadratic function as the hessian $\nabla^2 f(x)=2I$ is positive definite. And the constraints $x_i-u_i\leq 0$ and $-x_i+l_i\leq 0$ are affine thus convex. So this is a (CP). We can choose $x_i=(l_i+u_i)/2$ as a slater point.
+
+The KKT conditions are 
+\begin{align*}
+    2(x-x^0)&=-\sum\lambda_i^+e_i+\sum\lambda_i^-(-e_i)\\
+    x&=\frac{1}{2}\big(x^0-\sum(\lambda_i^++\lambda_i^-)e_i\big)
+\end{align*}
+
+$\ $
+
+\eg[Projection onto a box]
+Given $l,u,z\in\bR^n$ with $l<u$, solve $min\,||x-z||^2$ subject to $l\leq x\leq u$. (how to construct the point and prove it is the optimal)
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=5cm, height=5cm]{projectionontobox.jpg}
+\end{figure}
+\begin{center}
+    $f(x)=(x-z)^T(x-z)=x^TIz-2z^Tx+z^Tz$\\
+    $g^l_i(x)=l_i-x_i\,,\,g^u_i(x)=x_i-u_i$\\
+   $\nabla f(x)=2x-2z$\\
+    $\nabla g^l_i(x)=-e_i\,,\,\nabla g^u_i(x)=e_i$
+\end{center}
+
+{\bf LICQ }: For all $i$, at most one of $g_i^l(x),g_i^u(x)$ is zero
+
+Thus the gradient of the active constraints at any feasible $x$ give a subset of the columns of an identity matrix $\Rightarrow$ linearly independent
+
+{\bf LPCQ }: All $g_i(x)$ are linear (affine)
+
+{\bf Slater :} Slater point : $\frac{l+u}{2}$
+
+Hence KKT is necessary
+
+$f$ is convex and feasible region $\Omega$ is convex, thus KKT is sufficient
+
+{\bf Feasibility : }$l\leq x\leq u$
+
+{\bf KKT eqn : } $-\sum_i\lambda_i^l(-e_i)-\sum_i\lambda_i^ue_i=2(x-z)\,\,\Longleftrightarrow\,\lambda^l-\lambda^u=2(x-z),\lambda_i^l,\lambda_i^u\geq 0$
+
+{\bf Complementarity : } $(x_i-l_i)\lambda_i^l=0\,,\,(u_i-x_i)\lambda_i^u=0$
+
+For $i=1,\cdots,n$
+
+{\bf CASE 1 : }$z_i<l_i$
+
+\hspace{0.5cm} For any $x\in\Omega,z_i<x_i$, for $\lambda_i^l-\lambda_i^u=2(x_i-z_i)>0$, we need $\lambda_i^l>0$
+
+\hspace{0.5cm} Since $(x_i-l_i)\lambda_i^l=0,$ we have $x_i=l_i$
+
+{\bf CASE 2 : }$z_i>u_i$
+
+\hspace{0.5cm} For any $x\in\Omega,z_i>x_i,$ so $\lambda_i^u>0$, thus $x_i=u_i$
+
+{\bf CASE 3 : }$l_i\leq z_i\leq u_i$
+
+\hspace{0.5cm} If $z_i<x_i$, by {\bf CASE 1 }, we have $\lambda_i^l=0\,\Leftarrow\,x_i=l_i\leq z_i<x_i$, Contradiction!
+
+\hspace{0.5cm} Similarly if $z_i>x_i$, $\lambda_i^u>0\,\Leftarrow\,x_i=u_i\geq z_i>x_i$, Contradiction!
+
+\hspace{0.5cm} Therefore $x_i=z_i$
+
+{\bf Algorithm : } For all $i$, $x_i=median(l_i,u_i,z_i)$
+
+
+\chapter{Algorithms For Constrained Optimization}
+
+\section{Equality-Constrained Optimization}
+\begin{center}
+    $min\,\{f(x):h_i(x)=0,\forall i=1,\cdots,n\}$
+\end{center}
+
+{\bf Quadratic Penalty Method}
+\begin{align*}
+    \mbox{Choose }&x^0,\rho>0\\
+    \mbox{For }&k=0,1,2,\cdots\\
+    &x^{k+1}=argmin\{g_{\rho}(x)\},\mbox{ where }g_{\rho}(x)=f(x)+\rho\sum_{i=i}^n\big(h_i(x)\big)^2\\
+    &(\mbox{initialize unconstrained method at }x^k)\\
+    &\rho=C\cdot \rho,mbox{ where }C>1
+\end{align*}
+
+Note that for a large $\rho$, to minimize the objective function $g_{\rho}$, it forces $h_i(x)$ to be really small
+
+But when $\rho$ is too big, such as $\frac{1}{\epsilon}$, we will have a problem, this is why we just say $\rho$ is a large number but not directly given a really large number
+
+\eg
+\begin{align*}
+    min\,\,&(x_1-1)^2+(x_2-1)^2\\
+    s.t.\,\,&x_1+x_2=4
+\end{align*}
+
+The level set is a flat ellipsoid around $x_1=x_2=2$ on the line $x_1+x_2=4$, with a really large $\rho$, the algorithm will give any point in this ellipsoid, finally converging to the minimizer point, i.e. the soln will become unstable as $\rho$ getting large.
+
+\thm
+Let $f,h_1,\cdots,h_n\in C^1(\bR^n)$ and let $g(x)=||\begin{bmatrix}
+h_1(x)\\
+\ddots\\
+h_n(x)
+\end{bmatrix}||^2=\sum_i\big(h_i(x)\big)^2$
+
+Suppose $x^k\to x^*$ and $\nabla h_1(x^*),\cdots,h_n(x^*)$ are linearly independent, then
+
+Either (1) $\nabla g(x^*)=0$ and $g(x^*)>0$ Or (2) $x^*$ is a KKT point
 
 \end{document}
