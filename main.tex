@@ -8,6 +8,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{pgfplots}
+\usepackage{wrapfig}
 \pgfplotsset{compat=newest}
 
 % Essential Packages
@@ -61,6 +62,7 @@
 \newcommand{\bZ}{ {\mathbb{Z}} }
 \newcommand{\bP}{ {\mathbb{P}} }
 \newcommand{\bo}{ {\mathcal{O}} }
+\newcommand{\bS}{ {\mathbb{S}} }
 \newcommand{\bbc}{ {\mathcal{C}} }
 
 
@@ -136,7 +138,7 @@
 \DeclareMathOperator{\order}{order}
 
 % Main Body
-\title{CO 367 - Nonlinear Optimization (Class Notes)}
+\title{Class Notes for CO 367 (Nonlinear Optimization)}
 \author{Saiyue Lyu}
 
 \begin{document}
@@ -145,9 +147,14 @@
 \hypersetup{pageanchor=true}
 \tableofcontents
 
+$\ $
+
+This class note based on CO 367 (Nonlinear Optimization) instructed by Professor Laurent Poirrier in Fall 2018. This course is an introduction to nonlinear optimization which also reviews most of CO 250 (Introduction to Optimization) and also introduces some content in CO 353 (Computational Discrete Optimization). For further studying, refer to CO 450 (Combinatorial Optimization), CO 452 (Integer Programming), CO 454 (Scheduling), CO 463 (Convex Optimization), CO 466 (Continuous Optimization) and CO 471 (Semi-definite Optimization)
+
 \chapter*{List of Definitions}
 \theoremlisttype{all}
 \listtheorems{defn}
+
 
 
 
@@ -378,7 +385,7 @@ Given $A\in\bR^{n\times n}$
 1) $\lambda$ is an eigenvalue $\Longleftrightarrow$
  $\exists$ a corresponding eigenvector
  
-2) $A$ is singular $\Longleftrightarrow$ it has a zero eigenvector
+2) $A$ is singular $\Longleftrightarrow$ it has a zero eigenvalue
 
 3) If $A$ is triangular, then its eigenvector are its diagonal entries
 
@@ -923,7 +930,7 @@ By convexity of $f$, have
 
 Thus, $\forall r>0, \exists z\neq x^*$ such that $||z-x^*||<r$ and $f(z)<f(x^*)$
 
-For instance, $z=\alpha\cdot y^*+(1-\alpha)\cdot x^*$ with $\alpha=\frac{r}{2}||y^*-x^*||$
+For instance, $z=\alpha\cdot y^*+(1-\alpha)\cdot x^*$ with $\alpha=\frac{r}{2||y^*-x^*||}$
 
 Thus $x^*$ is not a local minimizer, which is a contradiction
 
@@ -2690,9 +2697,9 @@ For $i=1,\cdots,n$
 \begin{align*}
     \mbox{Choose }&x^0,\rho>0\\
     \mbox{For }&k=0,1,2,\cdots\\
-    &x^{k+1}=argmin\{g_{\rho}(x)\},\mbox{ where }g_{\rho}(x)=f(x)+\rho\sum_{i=i}^n\big(h_i(x)\big)^2\\
+    &x^{k+1}=argmin\{g_{\rho}(x)\},\mbox{ where }g_{\rho}(x)=f(x)+\rho\sum_{i=1}^n\big(h_i(x)\big)^2\\
     &(\mbox{initialize unconstrained method at }x^k)\\
-    &\rho=C\cdot \rho,mbox{ where }C>1
+    &\rho=C\cdot \rho,\mbox{ where }C>1
 \end{align*}
 
 Note that for a large $\rho$, to minimize the objective function $g_{\rho}$, it forces $h_i(x)$ to be really small
@@ -2718,4 +2725,630 @@ Suppose $x^k\to x^*$ and $\nabla h_1(x^*),\cdots,h_n(x^*)$ are linearly independ
 
 Either (1) $\nabla g(x^*)=0$ and $g(x^*)>0$ Or (2) $x^*$ is a KKT point
 
+$\ $
+
+{\bf Quadratic Penalty Method : }
+\begin{center}$g_{\rho}(x)=f(x)+\rho\sum_{i=1}^n\big(h_i(x)\big)^2$
+\end{center}
+
+Drawbacks : 
+
+For a large $\rho$, the unconstrained problem is bad numerically.
+
+By design, $\rho$ has to be large as when $h_i(x^k)=0\,,\,\nabla\big(h_i(x)\big)^2$ becomes small.
+
+{\bf Exact Penalty Method : }
+\begin{center}$g_{\rho}(x)=f(x)+\rho\sum_{i=1}^n|h_i(x)|$
+\end{center}
+
+Advantages : When $h_i(x^k)\approx 0\,,\,\nabla|h_i(x^k)|$ is constant
+
+Drawbacks : 
+$|h_i(x)|$ is not differentiable
+
+{\bf Augmented Lagrangian Penalty Method : }
+
+Lagrangian Relaxation : 
+\begin{center}$L(x,\mu)=f(x)-\sum_{i=1}^n\mu_i\cdot h_i(x)$
+\end{center}
+
+$\ $
+
+\thm
+KKT points $\bar{x}$ of (NLP) with multipliers $\bar{\mu}$ coincide with stationary points $(\bar{x},\bar{\mu})$ of $L$
+\proof
+KKT conditions for (NLP) : 
+
+Feasibility : $h_i(x)=0,\forall i=1,\cdots,n$
+
+Gradient Equation : $\exists\,\bar{\mu}\,:\,\sum_i\bar{\mu}_i\nabla h_i(\bar{x})=\nabla f(\bar{x})$
+
+Stationary Point of $L$ : $\nabla L(\bar{x},\bar{\mu})=0$, since
+\begin{align*}
+\nabla L(\bar{x},\bar{\mu})=\begin{bmatrix}
+\nabla_{\bar{x}}L(\bar{x},\bar{\mu})\\
+\nabla_{\bar{\mu}}L(\bar{x},\bar{\mu})
+\end{bmatrix}=\begin{bmatrix}
+\nabla f(\bar{x})-\sum_i\bar{\mu}_i\nabla h_i(\bar{x})\\
+h_1(\bar{x})\\
+\vdots\\
+h_n(\bar{x})
+\end{bmatrix}=0
+\end{align*}
+
+\remark $\bar{x}$ is a KKT point for (NLP) iff $\exists\,\bar{\mu}\,:\,\nabla L(\bar{x},\bar{\mu})=0$
+
+{\bf Important : } The above does not imply that $(\bar{x},\bar{\mu})$ is a local minimizer for $L$, however, for any KKT point $\bar{x}$, $\exists\,\bar{\mu}$ such that $\bar{x}$ is a local minimizer for $min\,\{L(\bar{x},\mu)\,:\,\mu=\bar{\mu}\}$
+
+$\ $
+
+{\bf Finding $\bar{\mu}$ By Augmented Lagrangian Method}
+\begin{align}
+    \mbox{Choose }&x^0,\mu^0,\rho>0\nonumber\\
+    \mbox{For }&k=0,1,2,\cdots\nonumber\\
+    &x^{k+1}=argmin\{L_A(x,\mu^k)\}\,\,\#\mbox{ argmin of }x\nonumber\\
+    &\mbox{ where }L_A(x,\mu)=f(x)-\sum_{i=1}^n\mu_i\cdot h_i(x)+\rho\sum_{i=1}^n\big(h_i(x)\big)^2\nonumber\\
+    &(\mbox{initialize unconstrained method at }x^k)\nonumber\\
+    &\mu^{k+1}_i=\mu^k_i-2\rho\cdot h_i(x^{k+1})\\
+    &\rho=C\cdot \rho,\mbox{ where }C>1\nonumber
+\end{align}
+
+Why (10.1)? At $x^{k+1}$ : 
+\begin{align*}
+    0=\nabla_xL_A(x^{k+1},\mu^k)&=\nabla f(x^{k+1})-\sum_{i=1}^n\mu^k_i\cdot \nabla h_i(x^{k+1})+2\rho\sum_{i=1}^nh_i(x^{k+1})\cdot \nabla h_i(x^{k+1})\\
+    \nabla f(x^{k+1})&=\sum_{i=1}^n\mu^k_i\cdot \nabla h_i(x^{k+1})+2\rho\sum_{i=1}^nh_i(x^{k+1})\cdot \nabla h_i(x^{k+1})\\
+    &=\sum_{i=1}^n\big(\mu_i^k-2\rho\cdot h_i(x^{k+1})\big)\cdot \nabla h_i(x^{k+1})
+\end{align*}
+
+Setting $\mu^{k+1}_i$ to $\big(\mu_i^k-2\rho\cdot h_i(x^{k+1})\big)$ lets us satisfy the gradient equation at $x^{k+1}$
+
+{\bf Keep in mind we still miss feasibility of $x^{k+1}$, so $x^{k+1}$ is not necessarily KKT}
+
+{\bf Advantages of Augmented Lagrangian Method :} 
+
+$L_A(x,\mu)$ is differentiable, in practice, will usually converge before $\rho$ grows too large
+
+\section{Inequality Constrained Optimization}
+
+Focus on the closed convex cone
+
+\defn[Closed Convex Cone]
+$K$ is a closed convex cone if it is closed, convex, nonempty and $x\in K,\lambda\geq 0\,\Rightarrow\,(\lambda x)\in K$
+
+The three most important cone are :
+\begin{align*}
+\bR_+^n&=\{x\in\bR^n,x\geq 0\}\\
+\bC_2^{n+1}&=\{(y,x)\in\bR\times\bR^n\,:\,y\geq ||x||_2\}\\
+\mathcal{S}_+^n&=\{X\in\bR^{n\times n}:\,\,X\,\mbox{ is p.s.d}\}
+\end{align*}
+
+{\bf Conic Programming}
+\begin{align*}
+    min\,\,&c^Tx\\
+    s.t.\,\,&Ax=b
+\end{align*}
+
+\defn[Interior and Boundary]
+$int(K)=\{x\in K:\,\,\exists\,\,\delta>0$ such that $x\in K,\,B_{\delta}(x)\subseteq K$, $K$ is a closed convex cone\}
+
+$boundary(K)=K\backslash int(K)$
+
+\defn[Barrier Function]
+A barrier function is a convex function $\phi:\,int(K)\,\to\bR$ such that $\lim_{x\to b}\phi(x)=+\infty$ for any $b\in boundary(K)$
+
+The standard boundary functions are 
+
+$\bullet\,\,\bR^n_+\,:\,\phi(x)=-\sum_i\log x_i$
+
+$\bullet \,\,\bC_2^{n+1}\,:\,\phi(x)=-\log(y^2-||x||_2^2)$
+
+$\bullet \,\,\mathcal{S}_+^n\,:\,\phi(x)=-\log(det \,X)$
+
+For $\bR_+^n$, we want the penalty function of 0 makes all values equal to 0 and equal to $+\infty$ at 0, for $\bC_2^{n+1}$, $y^2-||x||_2^2$ stands for $x$ in the graph, and for $\mathcal{S}_+^2$, all the eigenvalues are $\geq 0$, so $det\,X\,\geq 0$, consider when one of the eigenvalues goes to 0, $det\,X$ stands for $x$.
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=5cm, height=2.5cm]{logfunction.png}
+\end{figure}
+
+{\bf Primal Interior Point Method}
+\begin{align}
+    \mbox{Choose }&x^0\in\,\,int(K)\,:\,Ax^0=b,\,\rho^0>0\nonumber\\
+    \mbox{For }&k=0,1,\cdots\nonumber\\
+    &x^{k+1}\simeq \,argmin\{g_{\rho}(x)\,:\,Ax=b\}\\
+    &\mbox{where }g_{\rho}(x)=c^Tx+\rho^k\phi(x)\nonumber\\
+    &\mbox{initialize at }x^k\nonumber\\
+    &\rho^{k+1}=C\cdot \rho^k\mbox{ with }C<1\nonumber
+\end{align}
+
+$\ $
+
+{\bf The LP Case ($K=\bR_+^n$)}
+
+We take a quadratic approximation of $g_{\rho}(x)$ for (10.2) at $x^k$ : \begin{align*}
+    g_{\rho}(x)&=c^Tx+\rho^k\phi(x)\\
+    &\simeq c^Tx\rho^k\phi(x^k)+\rho(x-x^k)^T\nabla \phi(x^k)+\frac{\rho^k}{2}(x-x^k)^T\nabla^2\phi(x^k)(x-x^k)
+\end{align*}
+
+Let $h=x-x^k$, then $(10.2)$ becomes :
+\begin{align*}
+    min\,\,&\overbrace{c^Tx^k}^{constant}+c^Th+\overbrace{\rho^k\phi(x^k)}^{constant}+\rho^kh^T\nabla h(x^k)+\frac{\rho^k}{2}h^T\nabla^2\phi(x^k)h\\
+    s.t.\,\,&A(x^k+h)=b\\
+    &\phi(x)=-\sum_i\log x_i\\
+    &\nabla \phi(x)=\begin{bmatrix}
+    -1/x_1\\
+    \vdots\\
+    -1/x_n
+    \end{bmatrix}\\
+    &\nabla^2\phi(x)=diag(\frac{1}{x_1^2},\cdots,\frac{1}{x_n^2})
+\end{align*}
+
+Which is 
+\begin{align*}
+    min\,\,&\big(c-\rho^k\begin{bmatrix}
+    1/x_1^k\\
+    \vdots\\
+    1/x_n^k
+    \end{bmatrix}\big)^Th+\frac{\rho^k}{2}h^T\cdot diag(1/(x_1^k)^2,\cdots,1/(x_n^k)^2)h\\
+    s.t.\,\,&Ah=b-Ax^k=0\mbox{ since }x^k\mbox{ satisfies }Ax^k=b
+\end{align*}
+
+KKT conditions are : $\begin{cases}
+\mbox{gradient eq }: \sum_i\mu_i\nabla \gamma(h)=\nabla f(h)\\
+\mbox{feasibility }: \mu_i\gamma_i(h)=0
+\end{cases}$
+
+$\Rightarrow\,\begin{cases}
+A^T\mu=\big(c-\rho^k\begin{bmatrix}
+    1/x_1^k\\
+    \vdots\\
+    1/x_n^k
+    \end{bmatrix}\big)+\rho^k\,diag(\frac{1}{(x_1^k)^2},\cdots,\frac{1}{(x_n^k)^2})h\\
+Ah=0
+\end{cases}$
+
+$\Rightarrow\,-\begin{bmatrix}
+&-\rho^k\,diag(\frac{1}{(x_1^k)^2},\cdots,\frac{1}{(x_n^k)^2})&A^T\\
+&A&0
+\end{bmatrix}\cdot\begin{bmatrix}
+h\\
+\mu
+\end{bmatrix}=-\begin{bmatrix}
+\big(c-\rho^k\begin{bmatrix}
+    1/x_1^k\\
+    \vdots\\
+    1/x_n^k
+    \end{bmatrix}\big)\\
+    0
+\end{bmatrix}$
+
+Note that the matrix is symmetric and easy to solve it numerically
+
+$\ $
+
+\thm
+For $\bR_+^n,\bC_2^{n+1},\bS_+^n$, the primal interior point method satisfies $||x^k-x^*||\leq \epsilon$ after $k=p(E,\epsilon)$ iterations, where 
+
+$\bullet\,p$ is a polynomial
+
+$\bullet\, E$ is the encoding size of the problem
+
+$\Rightarrow\,$ {\bf Polynomial Time Algorithm}
+
+$\ $
+
+Given $p$ closed convex cones $K_1,\cdots,K_p$, we have that $K_1\times \cdots\times K_p=K$ is also a convex cone. In practice, we can solve
+\begin{align*}
+    min&\,\,\,c^Tx\\
+    s.t.&\,\,\,Ax=b\\
+    &\,\,\,\,x\in K
+\end{align*}
+
+\eg[Euclidean Facility Location Problem]
+Given $b_1,\cdots,b_k\in \bR^n$, find $x\in\bR^n$ that minimizes $\sum||b_i-x||_2$ (note each $b_i$ is a distinct vector, not $i$th element)
+
+This problem is non-differentiable and $f(x)=\sum||b_i-x||_2$ are not Lipschitz-continuous, reformulating :
+\begin{align*}
+    min&\,\,\,\sum t_i\\
+    s.t.&\,\,\,t_i\geq ||b_i-x||_2\,,i=1,\cdots,k\,,\,(t_i,b_i-x)\in \bC^{n+1}_2
+\end{align*}
+
+Reformulating again :
+\begin{align*}
+    min&\,\,\,\sum t_i\\
+    s.t.&\,\,\,t_i\geq ||y_i||_2\,,\,i=1,\cdots,k\,,\,(t_i,y_i)\in \bC^{n+1}_2\\
+    &\,\,\,y_i=b_i-x\,,\,i=1,\cdots,k
+\end{align*}
+
+Once again
+\begin{align*}
+    min&\,\,\,\sum t_i\\
+    s.t.&\,\,\,\mu\geq ||x||_2\\
+    &\,\,\,t_i\geq ||y_i||_2\\
+    &\,\,\,y_i=b_i-x
+\end{align*}
+
+Finally
+\begin{align*}
+    min&\,\,\,1^Tt\\
+    s.t.&\,\,\,(\mu,x,t_1,y_1,\cdots,t_k,y_k)\in\bC^{n+1}_2\times\cdots\times\bC^{n+1}_2\\
+    &\,\,\,y_i=b_i-x
+\end{align*}
+
+\section{Review For Duality}
+
+\defn[Dual Cone]
+The dual cone of a closed convex cone $K\subseteq \bR^n$ is $K^*=\{s\in\bR^n:s^Tx\geq 0\,,\forall x\in K\}$
+
+\thm
+(1) $K^*$ is a closed convex cone
+
+(2) $(K^*)^*=k$
+
+(3) $(\bR^n_+)^*=\bR^n_+\,,\,(\bC^{n+1}_2)^*=\bC^{n+1}_2\,,\,(\bS^n_+)^*=\bS^n_+$, these cones are self-dual
+
+\begin{align*}
+    primal&\,\,(P)     &     dual&\,\,(D)\\
+    min&\,\,c^Tx     &     max&\,\,b^Ty\\
+    &\,\,Ax=b     &     &\,\,c-A^Ty\in K\\
+    &\,\,x\in K     &    &  
+\end{align*}
+
+$\ $
+
+\thm[Weak Duality]
+If $x$ is feasible for (P) and $y$ is feasible for (D), then $c^Tx\geq b^Ty$
+\begin{proof}
+Let $s=c-A^Ty\in K^*$, then clearly $c=A^Ty+s$, have
+\begin{align*}
+    c^Tx&=(A^Ty+x)^Tx\\
+    &=y^TAx+s^Tx\\
+    &=y^Tb+s^Tx\\
+    &\geq y^Tb=b^Ty
+\end{align*}
+
+Note that $s^Tx\geq 0$ by definition of the dual cone.
+\end{proof}
+
+\thm[Strong Duality]
+If (P) has a Slater point, i.e. $\exists x\in int(K)\,:\,Ax=b$ and $x^*$ is optimal for (P), then $\exists y^*$ optimal for (D) where $c^Tx^*=b^Ty^*$
+
+$\ $
+
+Recall that at each iteration, we can solve $min\{g_{\rho}(x):Ax=b\}$, where $g_{\rho}=f(x)+\rho\cdot \phi(x)$, solutions to this problem for fixed $\rho$ are central points. Together, taking all $\rho>0$, they create the central path.
+
+In the case of LP, $(K=\bR^n_+),\,\,g_{\rho}=f(x)-\rho\sum\log(x_i)$, and we can assume that there is a slater point for any nontrivial case, so KKT conditions are sufficient for global optimality.
+
+$\ $
+
+KKT conditions :
+\begin{align*}
+    A^T\mu&=\nabla g_{\rho}(x)\\
+    Ax&=b
+\end{align*}
+
+Reformulate as
+\begin{align*}
+    A^T\mu&=\nabla f(x)+\rho[-\frac{1}{x_1},\cdots,-\frac{1}{x_n}]^T\\
+    Ax&=b
+\end{align*}
+
+Dual LP :
+\begin{align*}
+    max&\,\,b^Ty\\
+    &\,\,A^Ty\leq c
+\end{align*}
+
+Is equivalent to 
+\begin{align*}
+    -min&\,\,-b^Ty\\
+    &\,\,A^Ty+s=c\\
+    &\,\,s\geq 0
+\end{align*}
+
+Adding a barrier :
+\begin{align*}
+    -min&\,\,-b^Ty-\rho\sum\log(s_i)\,\,\,\,\,\#\mbox{ denote this as }F(y,s)\\
+    &\,\,A^Ty+s=c
+\end{align*}
+
+$\ $
+
+KKT conditions for modified dual
+\begin{align*}
+    [A,I]^T\gamma&=[\nabla_yF(y,s),\nabla_sF(y,a)]^T\\
+    &=[-b_1,\cdots,-b_n,-\frac{\rho}{s_1},\cdots,-\frac{\rho}{s_n}]^T\\
+    A^Ty+s&=c
+\end{align*}
+
+Reformulate as
+\begin{align*}
+    A\gamma&=-b\\
+    \gamma&=[-\frac{\rho}{s_1},\cdots,-\frac{\rho}{s_n}]^T\\
+    A^Ty+s&=c
+\end{align*}
+
+By identifying $\mu=y$ and $\gamma=-x$, we get
+\begin{align*}
+    A^Ty&=c+\rho[-\frac{1}{x_1},\cdots,-\frac{1}{x_n}]^T\\
+    Ax&=b\\
+    \gamma&=[-\frac{\rho}{s_1},\cdots,-\frac{\rho}{s_n}]^T\\
+    A^Ty+s&=c\,\Rightarrow\,s=\rho[-\frac{1}{x_1},\cdots,-\frac{1}{x_n}]^T
+\end{align*}
+
+$\ $
+
+{\bf Primal-Dual Interior Point Method} : solve the system
+\begin{align*}
+    A^Tx&=b\\
+    A^Ty+s&=c\\
+    x_is_i&=\rho,\forall i=1,\cdots,n
+\end{align*}
+using Newton's method (variant)
+
+\chapter{Introduction to Neural Networks}
+
+{\bf Machine Learning : Classification/Labelling Problem}
+
+We are given $N$ input vectors in $[0,1]^n$ that are already labelled into categories (the "training set"), can an algorithm assign "good" (accurate) labels to more vectors?
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=6cm, height=3cm]{dataex.jpg}
+\end{figure}
+
+\section{Neural Networks (NN)}
+
+A trained NN provides a function $F:\bR^n\to\bR^k$. If $x\in\bR^n$ is an input vector, $j^*=argmax_j\{F(x)\}$.  (1) Given NN, how is $F(x)$ computed?  (2) How to get an NN that is a good classifier?
+
+$\ $
+
+For a single neuron (one neuron): 
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=3cm, height=1.5cm]{oneneuron.png}
+\end{figure}
+
+output = $\sigma_1$ (a linear combination of inputs)
+
+Typical choices for $\sigma_1(x):\bR\to\bR$ is 
+
+sigmoid function
+\begin{align*}
+    \sigma_1(x)=\frac{1}{1+e^{-x}}
+\end{align*}
+
+or Rectified linear unit (ReLU) :
+\begin{align*}
+    \sigma_1(x)=\begin{cases}
+    0\,\,&x\leq 0\\
+    x\,\,&x>0
+    \end{cases}
+\end{align*}
+
+\eg
+$\sigma_1(1x+0)$, normal sigmoid function
+
+$\sigma_1(3x+15)$, shifts points to $x=5$, transition is much sharper
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=10cm, height=4cm]{sigma1.jpg}
+\end{figure}
+
+\defn[Weight \& Bias]
+In $\sigma_1(w^tx+b_1),w\in\bR^k_l$ is the weight and $b_1\in\bR^1$ is the bias
+
+$\ $
+
+For a layer of neurons :
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=4cm, height=3cm]{neurons.png}
+\end{figure}
+
+All $k_l$ neurons in layer $l$ have the same inputs $x\in\bR^{n_l}$. Together, their output is in $\bR^{k_l}$. The output of a layer $l$ is $\sigma(w\cdot x+b), W\in\bR^{k_l}$. For $w\in \bR^{k_l\times n_l}, b\in \bR^{k_l}$, 
+
+we define $\sigma\,:\,\bR^{k_l}\to\bR^{k_l}$ as 
+\begin{align*}
+    \sigma(x)=\begin{bmatrix}
+    \sigma_1(x_1)\\
+    \vdots\\
+    \sigma_{k_l}(x_{k_l})
+    \end{bmatrix}
+\end{align*}
+
+$\ $
+
+For a neural network :
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=9cm, height=4cm]{neuralnetworkex.png}
+\end{figure}
+\begin{align*}
+    &l=1     &     &\mbox{output }x\\
+    &l=2     &     &\mbox{output }\sigma(w^2x+b^2)\\
+    &l=3     &     &\mbox{output }\sigma\big(w^3\cdot\sigma(w^2x+b^2)+b^3\big)\\
+    &l=4     &     &\mbox{output }\sigma\Big(w^4\cdot \sigma\big(w^3\cdot\sigma(w^2x+b^2)+b^3\big)+b^4\Big)
+\end{align*}
+
+A deep neural networks means the number $L$ of layers is large. A hidden layer is a layer $l$ with $l\neq 1$ and $l\neq L$
+
+$\ $
+
+\defn[Training]
+Training is the process of finding $w^l,b^l$ for $l=2,\cdots,L$ that give a "good" neural network (give a accurate classifier)
+\defn[Cost Function]
+A cost function is a function of the weights and biases that has a "low" value when the neural network gives a "good" classification of the training data.
+
+{\bf Typical Cost Function} : Quadratic cost function
+\begin{align*}
+    cost(w^2,\cdots,w^L,b^2,\cdots,b^L)=\frac{1}{N}\sum^n_{j=1}\frac{1}{2}||y(x^j)-F(x^j)||_2^2
+\end{align*}
+
+where $y(x^j)=e_k$ if $x^j$ is labelled to category $k$
+
+{\bf Training is to find }: 
+\begin{align*}
+    \displaystyle\min_{w^l,b^l,l=2,\cdots,L}\frac{1}{N}\sum^n_{j=1}\frac{1}{2}||y(x^j)-F(x^j)||_2^2
+\end{align*}
+
+\section{Gradient Descent For NN}
+
+Let's define the parameter vector $p\in\bR^p$ containing all entries of $w^l,b^l$ for $l=2,\cdots,L$. Typically, no line search. Instead, we find a constant step size $\eta$, called {\bf the learning rate}. $eta$ is one of many hyperparameters (constant chosen heuristically because they work)
+
+Consider the Training
+\begin{align*}
+    \displaystyle\min_{w^l,b^l,l=2,\cdots,L}\frac{1}{N}\sum^n_{j=1}\frac{1}{2}||y(x^j)-F(x^j)||_2^2
+\end{align*}
+
+The gradient is
+\begin{align*}
+    \frac{1}{N}\sum^n_{j=1}\nabla(\frac{1}{2}||y(x^j)-F(x^j)||_2^2)\\
+    \mbox{where }\nabla\mbox{ is w.r.t. }w^2,b^2,\cdots,w^L,b^L
+\end{align*}
+
+Note that $L$ is relatively large, so consider the {\bf Stochastic Gradient Descent}, the gradient is
+\begin{align*}
+    \frac{1}{|S|}\sum_{j\in S}\nabla(\frac{1}{2}||y(x^j)-F(x^j)||_2^2)\\
+    \mbox{where }S\subseteq\{1,\cdots,N\}
+\end{align*}
+
+$\bullet$ Single-Sample ($|S|=1$) or Mini-batch $(|S|>1)$
+
+$\bullet$ Either done with repetitions (at each iteration, choose a random $S$)
+
+$\bullet$ Or done without repetitions : $\{1,\cdots,N\}$ is partitioned into disjoint subsets $S^1,S^2,\cdots$ and iterations cycle through these subsets
+
+\section{Backpropagation}
+
+Problem : For a given $j\in\{1,\cdots,N\}$, compute
+\begin{align*}
+    \frac{\partial}{\partial w^l_{ik}}\frac{1}{2}||y(x^j)-F(x^j)||_2^2\,,\forall l,i,k\\
+    \frac{\partial}{\partial b^l_{ik}}\frac{1}{2}||y(x^j)-F(x^j)||_2^2\,,\forall l,i,k
+\end{align*}
+
+Let's denote 
+\begin{align*}
+    y&=y(x^j)\\
+    a^l&=\mbox{ output of layer }l\\
+    a^L&=\mbox{ output of last layer}\\
+    z^l&=w^la^{l-1}b^l\,\,\#\mbox{weighted input of layer }l
+\end{align*}
+
+Thus,
+\begin{align*}
+    a^l=\sigma(z^l)
+\end{align*}
+
+We define 
+\begin{align*}
+    \delta_i^l\,:=\,\frac{\partial}{\partial z_i^l}\frac{1}{2}||y-a^l||^2
+\end{align*}
+
+\lemma[Last layer]
+$\delta_i^L=\sigma'(z_i^L)\cdot (a^L_i-y_i)$ \# note the derivative of $\sigma$
+\begin{proof}
+\begin{align*}
+    \delta_i^L&=\frac{\partial}{\partial z_i^L}\frac{1}{2}||y-a^L||^2\\
+    &=\frac{\partial}{\partial a_i^L}\frac{1}{2}||y-a^L||^2\cdot \frac{\partial a^L_i}{\partial z^L_i}\,\,\mbox{(Chain Rule)}\\
+    \frac{\partial}{\partial a_i^L}\frac{1}{2}||y-a^L||^2&=\frac{\partial}{
+    \partial a^L_i}\frac{1}{2}\sum_k(y_k-a^L_k)^2\\
+    &=\sum_k\frac{\partial}{
+    \partial a^L_i}\frac{1}{2}(y_k-a^L_k)^2\\
+    &=-(y_i-a_i^L)\end{align*}\begin{align*}
+    a^L_i&=\sigma(z^L_i)\\
+    \frac{\partial a^L_i}{\partial z^L_i}&=\sigma'(z^L_i)
+\end{align*}
+
+Together, get
+\begin{align*}
+    \delta^L_i&=-(y_i-a^L_i)\cdot\sigma'(z^L_i)\\
+    &=\sigma'(z_i^L)\cdot (a^L_i-y_i)
+\end{align*}
+\end{proof}
+
+$\ $
+
+\lemma[Other smaller layer]
+$\delta^l_i=\sigma'(z^l_i)[(w^{l+1})^T\delta^{l+1}]_i$
+\begin{proof}
+\begin{align*}
+    \delta_i^l&=\frac{\partial}{\partial z_i^l}\frac{1}{2}||y-a^l||^2\\
+    &=\frac{\partial}{\partial z_i^l}\frac{1}{2}\sum_k(y_k-a_k^l)^2\\
+    &=\sum_k\frac{\partial}{\partial z_i^l}\frac{1}{2}(y_k-a_k^l)^2\\
+    &=\sum_k\frac{\partial}{\partial z_i^{l+1}}\frac{1}{2}(y_k-a_k^l)^2\cdot \frac{\partial z_i^{l+1}}{\partial z_i^l}\,\,\mbox{(Chain Rule)}\\
+    z^{l+1}_k&=\sum_sw^{l+1}_{ks}\sigma(z^l_s)+b^{l+1}_k\\
+    \Rightarrow\,\,\frac{\partial z_i^{l+1}}{\partial z_i^l}&=w^{l+1}_{ki}\sigma'(z_i^l)
+\end{align*}
+
+Together, get
+\begin{align*}
+    \delta_i^l=\sum_k\delta_k^{l+1}\cdot w^{l+1}_{ki}\sigma'(z_i^l)
+\end{align*}
+\end{proof}
+
+\newpage
+
+\lemma
+$\frac{\partial}{\partial b_i^l}\frac{1}{2}||y-a^L||^2=\delta_i^l$
+\begin{proof}
+\begin{align*}
+    \frac{\partial}{\partial b_i^l}\frac{1}{2}||y-a^L||^2&=\underbrace{\frac{\partial}{\partial z_i^l}\frac{1}{2}||y-a^L||^2}_{\delta_i^l}\cdot \frac{\partial z_i^l}{\partial b_i^l}\,\,\mbox{(Chain Rule)}\\
+    z^l_i&=\big(w^l(\sigma(z^{l-1})\big)_i+b^l_i\\
+    \frac{\partial z^l_i}{\partial b_i^l}&=1\\
+    \mbox{So }\,\,\,\,\,\,\,\frac{\partial}{\partial b_i^l}\frac{1}{2}||y-a^L||^2&=\delta_i^l
+\end{align*}
+\end{proof}
+
+$\ $
+
+\lemma
+$\frac{\partial}{\partial w_{sk}}\frac{1}{2}||y-a^L||_2^2=\delta_s^l\cdot a^{l-1}_k$
+\begin{proof}
+\begin{align*}
+    \frac{\partial}{\partial w_{sk}}\frac{1}{2}||y-a^L||_2^2&=\sum_i\frac{\partial}{\partial w_{sk}}\frac{1}{2}(y_i-a^L_i)^2\\
+    &=\sum_i\underbrace{\frac{\partial}{\partial z_{i}^l}\frac{1}{2}(y_i-a^L_i)^2}_{\delta_i^l}\cdot\frac{\partial z^l_i}{\partial w_{sk}}\\
+    z^l_i&=\big(w^l\sigma (z^{l+1})\big)_i+b_i^l\\
+    &=[\sum_kw^l_{ik}\underbrace{\sigma(z_k^{l-1}}_{a_k^{l-1}}]+b^l_i\\
+    &=[\sum_kw^l_{ik}a^{l-1}]+b_i^l\\
+    \mbox{So }\,\,\,\,\,\frac{\partial z^l_i}{\partial w_{sk}}&=\begin{cases}
+    0,&\forall s\neq i\\
+    a^{l-1}_k,&s=i
+    \end{cases}\\
+    \frac{\partial}{\partial w_{sk}}\frac{1}{2}||y-a^L||_2^2&=\sum_i\delta_i^l\cdot\frac{\partial z^l_i}{\partial w_{sk}}=\delta_s^la^{l-1}_k
+\end{align*}
+\end{proof}
+
+\section{Summary}
+
+(1) $\delta_i^L=\sigma'(z^L_i)\cdot (a^L_i-y_i)$
+
+(2) $\delta_i^l=\sigma'(z^l_i)[(w^{l+1})^T\cdot \delta^{l+1}]_i,\,\forall l=2,\cdots,L-1$
+
+(3) $\frac{\partial}{\partial b_i}\frac{1}{2}||y-a^L||^2=\delta_i^l$
+
+(4) $\frac{\partial}{\partial w_{sk}}\frac{1}{2}||y-a^L||^2=\delta_s^l\cdot a_k^{l+1}$
+
+\chapter{Course Summary for Final}
+
+Chapter 2  : psd/pd matrices
+
+Chapter 3  : Convexity, Strong Convexity (Chapter 7)
+
+Chapter 4  : Constrained Optimization, show a function is coercive
+\begin{align*}
+    \nabla f(x)=0,\nabla^2f(x)\,p.d.\Rightarrow\,x\mbox{ strict local min}\Rightarrow\,x\mbox{ local min}\Rightarrow\nabla^2f(x)\,p.s.d
+\end{align*}
+
+Chapter 5  : Quadratic Optimization, Newton's Method
+
+Chapter 6  : Least Square Problem (Direct application of Chapter 5)
+
+Chapter 7  : Descent Algorithms, Steepest Direction(= opposite of gradient), Newton's Method Convergence
+
+Chapter 8  : Trust Region Methods, Trust Region Subproblem
+
+Chapter 9  : Constrained Optimization, KKT conditions
+
+Chapter 10 : Constrained Optimization Algorithms, Conic Optimization, Looking for Dual
+
+Chapter 11 : Neural Network, no proofs on final, maybe some T/F
 \end{document}
